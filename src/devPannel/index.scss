@@ -1,0 +1,81 @@
+$green-darkest: #002329;
+$green-darker: #00474f;
+$green-dark: #006d75;
+$green: #08979c;
+$green-light: #13c2c2;
+$green-lighter: #36cfc9;
+$green-lightest: #b5f5ec;
+$green-lightest-max: #e6fffb;
+$white: #fff;
+$red-light: #ff4d4f;
+$grey: #8c8c8c;
+$grey-light: #bfbfbf;
+$blue: #1890ff;
+$pink: #f759ab;
+
+$item-size-md: 44px;
+$item-size: 36px;
+$item-size-sm: 24px;
+$item-size-xs: 16px;
+$item-size-xxs: 14px;
+
+@import 'base';
+.rc-notification .rc-notification-notice {
+  background: $green-darkest;
+  color: $green-lightest-max;
+  text-align: center;
+}
+.hidden {
+  display: none !important;
+}
+.dev-pannel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $green-darker;
+  .pannel-container {
+    display: flex;
+    height: calc(100% - #{$item-size});
+    .data-pannel {
+      border-right: 1px solid $green-darkest;
+    }
+    .data-pannel,
+    .event-pannel {
+      @media screen and (max-width: 720px) {
+        width: 100%;
+        border: none;
+      }
+      width: 50%;
+      min-width: 360px;
+      height: 100%;
+      flex: 1;
+      .title {
+        height: $item-size;
+        background: $green;
+        color: $green-lightest;
+        font-size: 16px;
+        text-align: center;
+        line-height: $item-size;
+        cursor: default;
+      }
+    }
+    .visible-changer {
+      @include hover($green-lighter);
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 60px;
+      height: $item-size-sm;
+      border-radius: 4px;
+      background: $green-lighter;
+      color: $white;
+      font-size: $item-size-xxs;
+    }
+  }
+}
+
+@import 'switch';
+@import 'error-page';
+@import 'event-pannel';
+@import 'data-pannel';
+@import 'setting-bar';

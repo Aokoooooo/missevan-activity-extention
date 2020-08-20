@@ -1,0 +1,39 @@
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: $item-size-xs;
+  .label {
+    color: $green-lightest;
+    line-height: $item-size-xs;
+  }
+  .switch-item {
+    width: 60px;
+    height: $item-size-xs;
+    padding: 2px;
+    border-radius: $item-size-xs;
+    background: $grey-light;
+    transition: background 0.3s;
+    box-shadow: 0 0 2px $green-light;
+    cursor: pointer;
+    &.active {
+      background: $green;
+    }
+    .switch-ball {
+      @include hover;
+      width: $item-size-xs;
+      height: $item-size-xs;
+      border-radius: 50%;
+      background: $green-lightest;
+      transition: transform 0.3s, box-shadow 0.3s;
+      &.active {
+        transform: translateX(calc(60px - #{$item-size-xs}));
+        box-shadow: 0 0 6px $green-lighter;
+        &:hover {
+          box-shadow: 0px 0px 10px $green-lightest;
+        }
+      }
+    }
+  }
+}

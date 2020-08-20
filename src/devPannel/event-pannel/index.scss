@@ -1,0 +1,77 @@
+.event-pannel {
+  .event-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - #{$item-size * 2});
+    .header {
+      display: flex;
+      width: 100%;
+      height: $item-size-sm;
+      background-color: $green-dark;
+      line-height: $item-size-sm;
+      div {
+        color: $green-lightest;
+        text-align: center;
+      }
+      .type {
+        width: 30%;
+        border-right: 1px solid $green-darker;
+      }
+      .data {
+        width: 70%;
+      }
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100% - #{$item-size-sm});
+      overflow: scroll;
+      color: $green-lightest;
+      div {
+        display: flex;
+        width: 100%;
+        height: $item-size-xs;
+        color: $white;
+        line-height: $item-size-xs;
+        &:hover {
+          background: $green;
+        }
+        div {
+          padding-left: 10px;
+        }
+        .type {
+          width: 30%;
+        }
+        .data {
+          width: 70%;
+        }
+      }
+    }
+  }
+  .event-emiter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $item-size;
+    * {
+      height: $item-size-sm;
+      margin: 0 5px;
+    }
+    .type-inputer {
+      width: 30%;
+    }
+    .value-inputer {
+      flex: 1;
+    }
+    .submit-btn {
+      @include hover($green-lighter);
+      width: 60px;
+      min-width: 40px;
+      background: $green;
+      color: $white;
+      cursor: pointer;
+    }
+  }
+}

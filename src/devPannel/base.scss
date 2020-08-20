@@ -1,0 +1,77 @@
+html {
+  height: 100%;
+  width: 100%;
+  body {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    min-height: $item-size * 2;
+    margin: 0;
+    padding: 0;
+    font-family: 'monospace', 'Helvetica Neue', 'Lucida Grande', sans-serif;
+    font-size: 12px;
+    #app {
+      height: 100%;
+    }
+  }
+}
+
+@mixin hover($color: $green-lightest-max) {
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 10px $color;
+  }
+}
+
+button,
+input {
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  transition: box-shadow, border 0.3s;
+  &:active,
+  &:focus,
+  &:hover {
+    border: none;
+    outline: none;
+  }
+}
+
+button {
+  @include hover;
+}
+
+input {
+  padding: 0 4px;
+  &:active,
+  &:focus {
+    box-shadow: 0 0 6px $green-lightest;
+  }
+  &.error {
+    box-shadow: 0 0 6px $red-light;
+    &::placeholder {
+      color: $red-light;
+    }
+    &:active,
+    &:focus {
+      box-shadow: 0 0 10px $red-light;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: $green-light;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-corner {
+  display: none;
+}

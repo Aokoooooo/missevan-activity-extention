@@ -1,11 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
-const fg = require('fast-glob')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const ExtensionReloader = require('webpack-extension-reloader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -16,7 +14,6 @@ function configFunc(env, argv) {
     devtool: isDevMode ? 'eval-source-map' : false,
     context: path.resolve(__dirname, './src'),
     entry: {
-      options: './options/index.js',
       background: './background/index.js',
       devtools: './devtools/index.js',
       devPannel: './devPannel/index.js',
@@ -30,13 +27,6 @@ function configFunc(env, argv) {
     module: {
       rules: [
         {
-          test: /\.vue$/,
-          loader: 'vue-loader',
-          options: {
-            extractCSS: !isDevMode,
-          },
-        },
-        {
           test: /\.js$/,
           loader: 'babel-loader',
           exclude: /(node_modules|bower_components)/,
@@ -44,7 +34,7 @@ function configFunc(env, argv) {
         {
           test: /\.scss$/,
           use: [
-            isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+            MiniCssExtractPlugin.loader,
             'css-loader',
             'sass-loader',
           ],
@@ -52,7 +42,7 @@ function configFunc(env, argv) {
         {
           test: /\.sass$/,
           use: [
-            isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+            MiniCssExtractPlugin.loader,
             'css-loader',
             {
               loader: 'sass-loader',
@@ -64,7 +54,7 @@ function configFunc(env, argv) {
         {
           test: /\.css$/,
           use: [
-            isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+            MiniCssExtractPlugin.loader,
             'css-loader',
           ],
         },
@@ -80,13 +70,12 @@ function configFunc(env, argv) {
     },
     resolve: {
       alias: {
-        vue$: 'vue/dist/vue.runtime.esm.js',
-        bulma$: 'bulma/css/bulma.css',
       },
-      // extensions: ['.js'],
     },
     plugins: [
-      new VueLoaderPlugin(),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+      }),
       new CleanWebpackPlugin({
         cleanStaleWebpackAssets: false,
       }),
@@ -95,12 +84,6 @@ function configFunc(env, argv) {
           { from: 'assets', to: 'assets' },
           { from: 'manifest.json', to: 'manifest.json', flatten: true },
         ],
-      }),
-      new HtmlWebpackPlugin({
-        title: 'Options',
-        template: './index.html',
-        filename: 'options.html',
-        chunks: ['options'],
       }),
       new HtmlWebpackPlugin({
         title: 'Devtools',
@@ -126,8 +109,7 @@ function configFunc(env, argv) {
       new ExtensionReloader({
         contentScript: 'contentScripts',
         background: 'background',
-        extensionPage: 'popup',
-        options: 'options',
+        extensionPage: 'devtools',
       })
     )
   } else {
@@ -135,17 +117,7 @@ function configFunc(env, argv) {
       new ScriptExtHtmlWebpackPlugin({
         async: [/runtime/],
         defaultAttribute: 'defer',
-      }),
-      new MiniCssExtractPlugin({
-        filename: '[name].css',
       })
-      // new CopyWebpackPlugin({
-      // patterns: [
-      //   {
-      //     from: path.join(__dirname, '../src/data'),
-      //     to: path.join(__dirname, '../dist/data'),
-      //   },
-      // ]})
     )
   }
   return config

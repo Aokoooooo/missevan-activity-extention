@@ -1,10 +1,7 @@
-import Vue from 'vue'
-import 'bulma-fluent/bulma.sass'
+import { MISS_EVAN_PANNEL_NAME } from '../utils/constants'
 
-import App from './App.vue'
+function createPanel(url) {
+  chrome.devtools.panels.create(MISS_EVAN_PANNEL_NAME, null, url)
+}
 
-// eslint-disable-next-line
-new Vue({
-  el: '#app',
-  render: h => h(App),
-})
+createPanel('devPannel.html')

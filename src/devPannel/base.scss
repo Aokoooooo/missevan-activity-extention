@@ -8,7 +8,7 @@ html {
     min-height: $item-size * 2;
     margin: 0;
     padding: 0;
-    font-family: 'Helvetica Neue', 'Lucida Grande', sans-serif;
+    font-family: 'monospace', 'Helvetica Neue', 'Lucida Grande', sans-serif;
     font-size: 12px;
     #app {
       height: 100%;
@@ -16,9 +16,18 @@ html {
   }
 }
 
+@mixin hover {
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 6px $green-lightest;
+  }
+}
+
 button,
 input {
   border: none;
+  border-radius: 4px;
   outline: none;
   transition: box-shadow, border 0.3s;
   &:active,
@@ -28,11 +37,11 @@ input {
     outline: none;
   }
 }
+
 button {
-  &:hover {
-    box-shadow: 0 0 6px $green-lightest;
-  }
+  @include hover;
 }
+
 input {
   padding: 0 4px;
   &:active,
@@ -61,4 +70,8 @@ input {
 }
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-corner {
+  display: none;
 }

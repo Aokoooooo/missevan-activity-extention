@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { DevPannelCtx } from '.'
 
 export const EventPannel = () => {
-  const { events, sendMessage } = useContext(DevPannelCtx)
+  const { events, sendMessage, toast, evalCode } = useContext(DevPannelCtx)
   const [type, setType] = useState('')
   const [data, setData] = useState('')
   const [typeError, setTypeError] = useState(false)
@@ -18,32 +18,21 @@ export const EventPannel = () => {
     setData(e.target.value.trim())
   }
   const onSubmit = () => {
-    if (typeError || dataError) {
-      return
-    }
-    if (!type) {
+    if (typeError || !type) {
+      toast('类型不可为空')
       setTypeError(true)
       return
     }
-    if (data !== '' && !/^\[.*\]$/.test(data)) {
+    if (dataError || (data !== '' && !/^\[.*\]$/.test(data))) {
       setDataError(true)
+      toast('参数要求为 JSON 数组')
       return
     }
-    try {
-      // 检查 JSON 格式
-      JSON.parse(data || '[]')
-      const code = `window.MissEvanEvents.bus.emit('${type}', ...${
-        data || '[]'
-      })`
-      chrome.devtools.inspectedWindow.eval(code, (r, e) => {
-        if (e) {
-          sendMessage(e)
-        }
-      })
-    } catch (e) {
-      setDataError(true)
-      sendMessage(e.message)
-    }
+    const code = `window.MissEvanEvents.bus.emit('${type}', ...${data || '[]'})`
+    evalCode(code, null, (e) => {
+      sendMessage(e)
+      toast(JSON.stringify(e))
+    })
   }
   const onEnter = (e) => {
     if (e.key === 'Enter') {

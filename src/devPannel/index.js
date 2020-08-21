@@ -6,17 +6,48 @@ import { EventPannel } from './event-pannel'
 import { MESSAGE_SOURCE, MESSAGE_DATA_TYPE } from '../utils/constants'
 import { SettingBar } from './setting-bar'
 
-export const DevPannelCtx = createContext({})
+const Toast = ({ msg }) => {
+  return (
+    <div className="toast">
+      <div className="msg">{msg}</div>
+    </div>
+  )
+}
 
+export const DevPannelCtx = createContext({})
+const APP = document.getElementById('app')
 const DevPannel = () => {
   const baseInfo = useRef()
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
   const [events, setEvents] = useState([])
 
   const sendMessage = (payload) => {
     baseInfo.current.port.postMessage({
       source: MESSAGE_SOURCE.DEVTOOLS,
       payload,
+    })
+  }
+  const toast = (msg) => {
+    const div = document.createElement('div')
+    APP.appendChild(div)
+    ReactDom.render(<Toast msg={msg} />, div)
+    setTimeout(() => {
+      ReactDom.unmountComponentAtNode(div)
+      APP.removeChild(div)
+    }, 2000)
+  }
+  const evalCode = (code, onSuccess, onErr) => {
+    chrome.devtools.inspectedWindow.eval(code, (r, e) => {
+      if (r && onSuccess) {
+        onSuccess(r)
+      }
+      if (e) {
+        sendMessage(e)
+        toast(JSON.stringify(e))
+        if (onErr) {
+          onErr(e)
+        }
+      }
     })
   }
 
@@ -35,12 +66,17 @@ const DevPannel = () => {
     baseInfo.current = { port, tabId }
   })
 
+  useEffect(() => {
+    evalCode('window.MissEvanEvents.getValue()', setData)
+  }, [])
   return (
     <DevPannelCtx.Provider
       value={{
         data,
         events,
         sendMessage,
+        toast,
+        evalCode,
       }}
     >
       <div className="dev-pannel">
@@ -54,4 +90,4 @@ const DevPannel = () => {
   )
 }
 
-ReactDom.render(<DevPannel />, document.getElementById('app'))
+ReactDom.render(<DevPannel />, APP)

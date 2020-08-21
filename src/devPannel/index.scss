@@ -7,12 +7,34 @@ $green-lighter: #36cfc9;
 $green-lightest: #b5f5ec;
 $white: #fff;
 $red-light: #ff4d4f;
+$grey: #8c8c8c;
+$blue: #1890ff;
+$pink: #f759ab;
 
 $item-size: 36px;
 $item-size-sm: 24px;
 $item-size-xs: 16px;
 
-@import "base";
+@import 'base';
+
+.toast {
+  display: flex;
+  position: fixed;
+  top: 40%;
+  right: 0;
+  left: 0;
+  flex: 0;
+  justify-content: center;
+  align-items: center;
+  .msg {
+    padding: 10px;
+    min-width: 50px;
+    border-radius: 4px;
+    background: $green-darkest;
+    color: $white;
+    font-size: 14px;
+  }
+}
 
 .dev-pannel {
   display: flex;
@@ -44,4 +66,5 @@ $item-size-xs: 16px;
 }
 
 @import 'event-pannel';
+@import 'data-pannel';
 @import 'setting-bar';

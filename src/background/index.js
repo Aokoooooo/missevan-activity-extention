@@ -9,9 +9,10 @@ chrome.runtime.onConnect.addListener(function (port) {
     return
   }
   connections[tabId] = port
+
   const extensionListener = function (message) {
-    if (message.name === 'MissEvanDevTools') {
-      connections[message.tabId] = port
+    if (message.source === 'MissEvanDevTools') {
+      console.log(message)
     }
   }
   port.onMessage.addListener(extensionListener)

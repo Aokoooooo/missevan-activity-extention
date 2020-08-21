@@ -4,6 +4,7 @@ import './index.scss'
 import { DataPannel } from './data-pannel'
 import { EventPannel } from './event-pannel'
 import { MESSAGE_SOURCE, MESSAGE_DATA_TYPE } from '../utils/constants'
+import { SettingBar } from './setting-bar'
 
 export const DevPannelCtx = createContext({})
 
@@ -11,20 +12,12 @@ const DevPannel = () => {
   const baseInfo = useRef()
   const [data, setData] = useState([])
   const [events, setEvents] = useState([])
-  const [dataPannelClosed, setDataPannelClosed] = useState(false)
-  const [eventPannelClosed, setEventPannelClosed] = useState(false)
 
-  const checkPannelStatus = (otherPannel, thisPannel) =>
-    !(otherPannel && !thisPannel)
-  const onDataPannelHeaderIconClick = () => {
-    if (checkPannelStatus(eventPannelClosed, dataPannelClosed)) {
-      setDataPannelClosed(!dataPannelClosed)
-    }
-  }
-  const onEventPannelHeaderIconClick = () => {
-    if (checkPannelStatus(dataPannelClosed, eventPannelClosed)) {
-      setEventPannelClosed(!eventPannelClosed)
-    }
+  const sendMessage = (payload) => {
+    baseInfo.current.port.postMessage({
+      source: MESSAGE_SOURCE.DEVTOOLS,
+      payload,
+    })
   }
 
   useEffect(() => {
@@ -47,15 +40,15 @@ const DevPannel = () => {
       value={{
         data,
         events,
-        dataPannelClosed,
-        eventPannelClosed,
-        onDataPannelHeaderIconClick,
-        onEventPannelHeaderIconClick,
+        sendMessage,
       }}
     >
       <div className="dev-pannel">
-        <DataPannel />
-        <EventPannel />
+        <div className="pannel-container">
+          <DataPannel />
+          <EventPannel />
+        </div>
+        <SettingBar />
       </div>
     </DevPannelCtx.Provider>
   )

@@ -2,5 +2,72 @@
   display: flex;
   align-items: center;
   height: $item-size;
+  padding: 0 20px;
   background: $green;
+  button {
+    @include hover($green-lighter);
+    width: 100px;
+    background: $green-lighter;
+    color: $white;
+  }
+  .left-pannel {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    height: 100vh;
+    width: 360px;
+    top: 0;
+    left: 0;
+    overflow: scroll;
+    transition: transform 0.5s;
+    transform: translateX(-400px);
+    background: $green-darker;
+    box-shadow: rgba(0, 0, 0, 0.09) 5px, 0px 12px 4px;
+    font-size: $item-size-xxs;
+    &.show {
+      transform: none;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: calc(100% - #{$item-size-xxxs});
+      height: $item-size;
+      margin-bottom: 20px;
+      color: $green-lightest;
+      .title {
+        height: $item-size;
+        font-size: $item-size-xs;
+        line-height: $item-size;
+      }
+      .close-btn {
+        height: $item-size;
+        transition: opacity 0.3s;
+        font-size: $item-size-sm;
+        line-height: $item-size;
+        transform: scale(0.9) scaleY(0.9);
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    .input-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 80%;
+      margin-bottom: 20px;
+      color: $green-lightest;
+      input {
+        height: $item-size-sm;
+      }
+    }
+    button {
+      width: 120px;
+      height: $item-size-sm;
+    }
+  }
 }

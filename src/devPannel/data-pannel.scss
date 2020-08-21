@@ -50,6 +50,9 @@
               background: $green-darker;
             }
           }
+          &.clickable {
+            cursor: pointer;
+          }
           .left {
             display: flex;
             align-items: center;
@@ -61,7 +64,6 @@
               border-style: solid;
               border-color: transparent transparent transparent $white;
               transition: opacity 0.3s;
-              cursor: pointer;
               &.open {
                 transform: rotate(90deg);
                 transform-origin: 25%;
@@ -74,14 +76,15 @@
                 opacity: 0.8;
               }
             }
+            .key {
+              color: $pink;
+            }
           }
           .arr,
           .obj {
             display: flex;
             flex-direction: column;
-          }
-          .key {
-            color: $pink;
+            width: 100%;
           }
           .grey {
             color: $grey;

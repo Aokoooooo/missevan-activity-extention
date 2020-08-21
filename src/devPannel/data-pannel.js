@@ -7,7 +7,7 @@ const PreviewItem = ({ itemKey, children, isObj, isArr, isEmpty, count }) => {
   const isObject = isObj || isArr
   const hideArrow = !isObject || (isObject && isEmpty)
   const renderedObjAbbreviation = useMemo(() => {
-    return isArr ? (isEmpty ? '[]' : '[ ... ]') : isEmpty ? '{}' : '{ ... }'
+    return isArr ? (isEmpty ? '[ ]' : '[ ... ]') : isEmpty ? '{ }' : '{ ... }'
   }, [isArr, isEmpty])
   const renderedChildren = useMemo(() => {
     if (!isObject) {
@@ -19,7 +19,8 @@ const PreviewItem = ({ itemKey, children, isObj, isArr, isEmpty, count }) => {
     return children
   }, [renderedObjAbbreviation, open, children])
 
-  const onClick = () => {
+  const onClick = (e) => {
+    e.stopPropagation()
     if (hideArrow) {
       return
     }
@@ -27,12 +28,13 @@ const PreviewItem = ({ itemKey, children, isObj, isArr, isEmpty, count }) => {
   }
 
   return (
-    <div className={classNames('item', { open: isObject && open })} style={{marginLeft: count * 10}}>
+    <div
+      className={classNames('item', { open: isObject && open, clickable: !hideArrow })}
+      style={{ marginLeft: count * 10 }}
+      onClick={onClick}
+    >
       <div className="left">
-        <div
-          className={classNames('arrow', { hide: hideArrow, open })}
-          onClick={onClick}
-        />
+        <div className={classNames('arrow', { hide: hideArrow, open })} />
         <div className="key">{itemKey}:&nbsp;</div>
       </div>
       {renderedChildren}
@@ -49,21 +51,21 @@ export const DataPannel = () => {
       const itemValue = obj[v]
       if (itemValue === null || itemValue === undefined) {
         return (
-          <PreviewItem itemKey={v} key={k}  count={count}>
+          <PreviewItem itemKey={v} key={k} count={count}>
             <div className="grey">{`${itemValue}`}</div>
           </PreviewItem>
         )
       }
       if (typeof itemValue === 'number' || typeof itemValue === 'boolean') {
         return (
-          <PreviewItem itemKey={v} key={k}  count={count}>
+          <PreviewItem itemKey={v} key={k} count={count}>
             <div className="blue">{`${itemValue}`}</div>
           </PreviewItem>
         )
       }
       if (typeof itemValue === 'string') {
         return (
-          <PreviewItem itemKey={v} key={k}   count={count}>
+          <PreviewItem itemKey={v} key={k} count={count}>
             <div className="red">{`"${itemValue}"`}</div>
           </PreviewItem>
         )

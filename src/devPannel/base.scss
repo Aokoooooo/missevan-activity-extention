@@ -16,11 +16,11 @@ html {
   }
 }
 
-@mixin hover {
+@mixin hover($color: $green-lightest) {
   transition: box-shadow 0.3s;
   cursor: pointer;
   &:hover {
-    box-shadow: 0 0 6px $green-lightest;
+    box-shadow: 0 0 6px $color;
   }
 }
 

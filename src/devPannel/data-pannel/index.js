@@ -1,53 +1,12 @@
-import React, { useState, useContext, useMemo } from 'react'
-import classNames from 'classnames'
+import React, { useState, useContext, useMemo, useEffect, useRef } from 'react'
+import ClipboardJS from 'clipboard'
 import { DevPannelCtx } from '..'
-
-const PreviewItem = ({ itemKey, children, isObj, isArr, isEmpty, count }) => {
-  const [open, setOpen] = useState(false)
-  const isObject = isObj || isArr
-  const hideArrow = !isObject || (isObject && isEmpty)
-  const renderedObjAbbreviation = useMemo(() => {
-    return isArr ? (isEmpty ? '[ ]' : '[ ... ]') : isEmpty ? '{ }' : '{ ... }'
-  }, [isArr, isEmpty])
-  const renderedChildren = useMemo(() => {
-    // 非数组和对象直接显示
-    if (!isObject) {
-      return children
-    }
-    // 数组和对象折叠时显示缩写
-    if (!open) {
-      return renderedObjAbbreviation
-    }
-    // 展示数组和对象
-    return children
-  }, [renderedObjAbbreviation, open, children])
-
-  const onClick = (e) => {
-    e.stopPropagation()
-    if (hideArrow) {
-      return
-    }
-    setOpen(!open)
-  }
-
-  return (
-    <div
-      className={classNames('item', { open: isObject && open, clickable: !hideArrow })}
-      style={{ marginLeft: count * 10 }}
-      onClick={onClick}
-    >
-      <div className="left">
-        <div className={classNames('arrow', { hide: hideArrow, open })} />
-        <div className="key">{itemKey}:&nbsp;</div>
-      </div>
-      {renderedChildren}
-    </div>
-  )
-}
+import { PreviewItem } from './preview-item'
 
 export const DataPannel = () => {
   const { data } = useContext(DevPannelCtx)
   const [isPreview, setIsPreview] = useState(true)
+  const clipboardRef = useRef()
 
   // 遍历渲染 store 数据
   const renderPreview = (obj, count) => {
@@ -81,7 +40,6 @@ export const DataPannel = () => {
             key={k}
             isArr={true}
             isObj={false}
-            isEmpty={!itemValue.length}
             count={count}
           >
             <div className="arr">{renderPreview(itemValue, count + 1)}</div>
@@ -95,7 +53,6 @@ export const DataPannel = () => {
             key={k}
             isArr={false}
             isObj={true}
-            isEmpty={!Object.keys(itemValue).length}
             count={count}
           >
             <div className="obj">{renderPreview(itemValue, count + 1)}</div>
@@ -112,6 +69,11 @@ export const DataPannel = () => {
     return renderPreview(data, 0)
   }, [data])
 
+  useEffect(() => {
+    clipboardRef.current = new ClipboardJS('.copy-btn')
+    return clipboardRef.current.destroy
+  }, [])
+
   return (
     <div className="data-pannel">
       <div className="title">DATA INFO</div>
@@ -125,10 +87,20 @@ export const DataPannel = () => {
           </div>
         </div>
         <div className="content">
-          {!isPreview ? (
-            <div className="json">{stringifiedData}</div>
-          ) : (
+          {isPreview ? (
             <div className="preview">{renderedPreview}</div>
+          ) : (
+            <>
+              <div className="json" id="stringifiedData">
+                {stringifiedData}
+              </div>
+              <button
+                className="copy-btn"
+                data-clipboard-target="#stringifiedData"
+              >
+                复制
+              </button>
+            </>
           )}
         </div>
       </div>

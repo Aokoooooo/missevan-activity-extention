@@ -103,6 +103,16 @@
       .json {
         white-space: pre;
       }
+      .copy-btn {
+        position: fixed;
+        top: 80px;
+        left: 45vw;
+        width: $item-size-md;
+        height: $item-size-md;
+        border-radius: 50%;
+        background: $green-light;
+        color: $green-lightest-max;
+      }
     }
   }
 }

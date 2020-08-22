@@ -12,6 +12,8 @@ $grey: #8c8c8c;
 $blue: #1890ff;
 $pink: #f759ab;
 
+$item-size-lg: 50px;
+$item-size-md: 44px;
 $item-size: 36px;
 $item-size-sm: 24px;
 $item-size-xs: 16px;
@@ -23,6 +25,7 @@ $item-size-xxxs: 12px;
 .toast {
   display: flex;
   position: fixed;
+  z-index: 10;
   top: 40%;
   right: 0;
   left: 0;

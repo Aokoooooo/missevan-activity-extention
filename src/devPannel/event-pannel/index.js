@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import classNames from 'classnames'
-import { DevPannelCtx } from '.'
+import { DevPannelCtx } from '..'
 
 export const EventPannel = () => {
   const { events, sendMessage, toast, evalCode } = useContext(DevPannelCtx)
@@ -23,11 +23,19 @@ export const EventPannel = () => {
       setTypeError(true)
       return
     }
-    if (dataError || (data !== '' && !/^\[.*\]$/.test(data))) {
+    if (dataError) {
       setDataError(true)
       toast('参数要求为 JSON 数组')
       return
     }
+    // 数据必须为 JSON 格式
+    try {
+      JSON.parse(data || '[]')
+    } catch (e) {
+      setDataError(true)
+      toast('参数要求为 JSON 数组')
+    }
+    // 在页面中执行 emit
     const code = `window.MissEvanEvents.bus.emit('${type}', ...${data || '[]'})`
     evalCode(code, null, (e) => {
       sendMessage(e)
@@ -48,6 +56,7 @@ export const EventPannel = () => {
           <div className="type">类型</div>
           <div className="data">参数</div>
         </div>
+        {/* 事件消息队列 */}
         <div className="content">
           {events.map((v, k) => (
             <div key={k}>
@@ -57,6 +66,7 @@ export const EventPannel = () => {
           ))}
         </div>
       </div>
+      {/* 事件发送表单 */}
       <div className="event-emiter">
         <input
           className={classNames('type-inputer', { error: typeError })}

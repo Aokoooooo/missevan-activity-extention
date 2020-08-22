@@ -6,6 +6,7 @@ export const SettingBar = () => {
 
   return (
     <div className="setting-bar">
+      {/* 初始化配置面板 */}
       <div className={classNames('left-pannel', { show: leftPannelShow })}>
         <div className="header">
           <div />
@@ -32,6 +33,7 @@ export const SettingBar = () => {
         </div>
         <button>确认</button>
       </div>
+      {/* setting bar buttons */}
       <button className="init-btn" onClick={() => setLeftPannelShow(true)}>
         初始化
       </button>

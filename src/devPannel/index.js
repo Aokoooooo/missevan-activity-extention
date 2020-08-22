@@ -21,12 +21,14 @@ const DevPannel = () => {
   const [data, setData] = useState({})
   const [events, setEvents] = useState([])
 
+  // 发消息给 background
   const sendMessage = (payload) => {
     baseInfo.current.port.postMessage({
       source: MESSAGE_SOURCE.DEVTOOLS,
       payload,
     })
   }
+  // 弹出toast
   const toast = (msg) => {
     const div = document.createElement('div')
     APP.appendChild(div)
@@ -36,6 +38,7 @@ const DevPannel = () => {
       APP.removeChild(div)
     }, 2000)
   }
+  // 在页面中执行代码
   const evalCode = (code, onSuccess, onErr) => {
     chrome.devtools.inspectedWindow.eval(code, (r, e) => {
       if (r && onSuccess) {
@@ -52,10 +55,13 @@ const DevPannel = () => {
   }
 
   useEffect(() => {
+    // 缓存当前标签页 ID
     const { tabId } = chrome.devtools.inspectedWindow
+    // 和 background 建立连接
     const port = chrome.runtime.connect({
       name: `${MESSAGE_SOURCE.DEVTOOLS}-${tabId || ''}`,
     })
+    // 监听 background 消息
     port.onMessage.addListener((message) => {
       if (message.type === MESSAGE_DATA_TYPE.EVENT) {
         setEvents([...events, message.payload])
@@ -63,10 +69,12 @@ const DevPannel = () => {
         setData(message.payload)
       }
     })
+    // 缓存链接和 ID
     baseInfo.current = { port, tabId }
-  })
+  }, [])
 
   useEffect(() => {
+    // 初始化时同步 store 数据
     evalCode('window.MissEvanEvents.getValue()', setData)
   }, [])
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useMemo } from 'react'
 import classNames from 'classnames'
-import { DevPannelCtx } from '.'
+import { DevPannelCtx } from '..'
 
 const PreviewItem = ({ itemKey, children, isObj, isArr, isEmpty, count }) => {
   const [open, setOpen] = useState(false)
@@ -10,12 +10,15 @@ const PreviewItem = ({ itemKey, children, isObj, isArr, isEmpty, count }) => {
     return isArr ? (isEmpty ? '[ ]' : '[ ... ]') : isEmpty ? '{ }' : '{ ... }'
   }, [isArr, isEmpty])
   const renderedChildren = useMemo(() => {
+    // 非数组和对象直接显示
     if (!isObject) {
       return children
     }
+    // 数组和对象折叠时显示缩写
     if (!open) {
       return renderedObjAbbreviation
     }
+    // 展示数组和对象
     return children
   }, [renderedObjAbbreviation, open, children])
 
@@ -46,6 +49,7 @@ export const DataPannel = () => {
   const { data } = useContext(DevPannelCtx)
   const [isPreview, setIsPreview] = useState(true)
 
+  // 遍历渲染 store 数据
   const renderPreview = (obj, count) => {
     return Object.keys(obj).map((v, k) => {
       const itemValue = obj[v]
@@ -100,12 +104,14 @@ export const DataPannel = () => {
       }
     })
   }
+
   const stringifiedData = useMemo(() => {
     return JSON.stringify(data, null, 2)
   }, [data])
   const renderedPreview = useMemo(() => {
     return renderPreview(data, 0)
   }, [data])
+
   return (
     <div className="data-pannel">
       <div className="title">DATA INFO</div>

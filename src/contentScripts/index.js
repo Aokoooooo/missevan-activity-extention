@@ -2,6 +2,7 @@
 function rewriteMissEvanEventsBusEmit() {
   const _emit = window.MissEvanEvents.bus.emit
   window.MissEvanEvents.bus._emit = _emit
+  // 发布事件前和 background 同步一下
   window.MissEvanEvents.bus.emit = function (type, ...args) {
     window.postMessage(
       {
@@ -29,6 +30,7 @@ function subscribeMissEvanEventsData() {
   })
 }
 
+// 初始化 MissEvanEvents 的拦截和订阅
 function initMissEvan() {
   if (!window.MissEvanEvents || window.MissEvanEvents._extension_init) {
     return

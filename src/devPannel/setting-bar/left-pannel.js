@@ -82,6 +82,11 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
         toast(e.message)
       })
   }
+  const onEnter = (e) => {
+    if (e.key === 'Enter') {
+      onSubmit()
+    }
+  }
 
   useEffect(() => {
     // 自动同步 data 数据
@@ -101,7 +106,11 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       </div>
       <div className="input-item">
         <div className="label">活动 ID</div>
-        <input value={eventId} onChange={(e) => setEventId(e.target.value)} />
+        <input
+          value={eventId}
+          onChange={(e) => setEventId(e.target.value)}
+          onKeyPress={onEnter}
+        />
       </div>
       <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
       <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />

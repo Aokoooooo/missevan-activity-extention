@@ -49,13 +49,13 @@ input {
     box-shadow: 0 0 6px $green-lightest;
   }
   &.error {
-    border: 1px solid $red-light;
+    box-shadow: 0 0 6px $red-light;
     &::placeholder {
       color: $red-light;
     }
     &:active,
     &:focus {
-      box-shadow: 0 0 8px $red-light;
+      box-shadow: 0 0 10px $red-light;
     }
   }
 }

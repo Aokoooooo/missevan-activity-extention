@@ -75,7 +75,7 @@ export const EventPannel = () => {
         />
         <input
           className={classNames('value-inputer', { error: dataError })}
-          placeholder="数据不为空要求为 JSON 数组"
+          placeholder="数据不为空时要求为 JSON 数组"
           onChange={onDataChange}
           onKeyPress={onEnter}
         />

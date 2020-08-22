@@ -76,7 +76,7 @@ export const DataPannel = () => {
     setUpdateData(e.target.value)
   }
   const onSubmit = () => {
-    if (error || (updateData !== '' && !/^\{.*\}$/.test(updateData))) {
+    if (error || !/^\{.*\}$/.test(updateData)) {
       setError(true)
       toast('参数要求为 JSON 对象')
       return
@@ -155,7 +155,7 @@ export const DataPannel = () => {
         />
         <input
           className={classNames('value-inputer', { error })}
-          placeholder="数据不为空要求为 JSON 对象"
+          placeholder="请输入 JSON 对象"
           onChange={onUpdateDataChange}
           onKeyPress={onEnter}
         />

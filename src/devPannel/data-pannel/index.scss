@@ -131,6 +131,7 @@
       margin: 0 10px;
     }
     .submit-btn {
+      @include hover($green-lighter);
       width: 60px;
       height: $item-size-sm;
       background: $green;

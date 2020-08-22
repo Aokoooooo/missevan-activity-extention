@@ -66,6 +66,7 @@
       flex: 1;
     }
     .submit-btn {
+      @include hover($green-lighter);
       width: 60px;
       background: $green;
       color: $white;

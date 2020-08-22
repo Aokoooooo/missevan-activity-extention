@@ -84,8 +84,7 @@ export const DataPannel = () => {
     }
     // 在页面中执行 next
     const objStringPrefix = isFullUpdate ? '' : '...state, '
-    const objString = `{ ${objStringPrefix}...${updateData} }`
-    console.log(UPDATE_STORE(objString))
+    const objString = `{ ${objStringPrefix}...${updateData || '{}'} }`
     evalCode(UPDATE_STORE(objString))
   }
   const onEnter = (e) => {

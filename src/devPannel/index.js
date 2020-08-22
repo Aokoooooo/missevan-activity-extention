@@ -24,7 +24,6 @@ const Toast = ({ msg }) => {
 export const DevPannelCtx = createContext({})
 const APP = document.getElementById('app')
 const DevPannel = () => {
-  const baseInfo = useRef()
   const [data, setData] = useState({})
   const [events, setEvents] = useState([])
   const [initError, setInitError] = useState(false)
@@ -36,13 +35,6 @@ const DevPannel = () => {
   )
   const appendEventsRef = useRef(appendEvents)
 
-  // 发消息给 background
-  const sendMessage = (payload) => {
-    baseInfo.current.port.postMessage({
-      source: MESSAGE_SOURCE.DEVTOOLS,
-      payload,
-    })
-  }
   // 弹出toast
   const toast = (msg) => {
     const div = document.createElement('div')
@@ -101,8 +93,6 @@ const DevPannel = () => {
         }
       }
     })
-    // 缓存链接和 ID
-    baseInfo.current = { port, tabId }
     // 初始化时同步 store 数据
     init()
   }, [])
@@ -116,7 +106,6 @@ const DevPannel = () => {
       value={{
         data,
         events,
-        sendMessage,
         toast,
         evalCode,
       }}

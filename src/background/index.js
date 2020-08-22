@@ -14,17 +14,8 @@ chrome.runtime.onConnect.addListener(function (port) {
   }
   // 缓存连接
   connections[tabId] = port
-  // 打印所有来自 devtools 的消息
-  const extensionListener = function (message) {
-    if (message.source === 'MissEvanDevTools') {
-      console.log(message)
-    }
-  }
-  // 监听 devtools 的消息
-  port.onMessage.addListener(extensionListener)
   // 连接关闭后移除监听和缓存
   port.onDisconnect.addListener(function (port) {
-    port.onMessage.removeListener(extensionListener)
     const tabId = getPortId(port)
     if (tabId && tabId in connections) {
       delete connections[tabId]

@@ -3,11 +3,12 @@
   z-index: 3;
   align-items: center;
   height: $item-size;
-  padding: 0 20px;
+  padding: 0 10px;
   background: $green;
   button {
     @include hover($green-lighter);
     width: 100px;
+    margin: 10px;
     background: $green-lighter;
     color: $white;
   }

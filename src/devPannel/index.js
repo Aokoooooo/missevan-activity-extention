@@ -120,7 +120,7 @@ const DevPannel = () => {
               <DataPannel />
               <EventPannel />
             </div>
-            <SettingBar />
+            <SettingBar setEvents={setEvents} />
           </>
         )}
       </div>

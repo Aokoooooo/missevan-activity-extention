@@ -22,11 +22,10 @@
     width: 360px;
     top: 0;
     left: 0;
-    overflow: scroll;
     transition: transform 0.5s;
     transform: translateX(-400px);
     background: $green-darker;
-    box-shadow: 1px 0	6px	2px $green-darkest;
+    box-shadow: 1px 0 6px 2px $green-darkest;
     font-size: $item-size-xxs;
     &.show {
       transform: none;
@@ -35,9 +34,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: calc(100% - #{$item-size-xxxs});
+      width: 100%;
       height: $item-size;
       margin-bottom: 20px;
+      background-color: $green-dark;
       color: $green-lightest;
       .title {
         height: $item-size;
@@ -46,6 +46,7 @@
       }
       .close-btn {
         height: $item-size;
+        margin-right: 10px;
         font-size: $item-size-sm;
         transition: transform, opacity 0.5s;
         cursor: pointer;
@@ -55,42 +56,51 @@
         }
       }
     }
-    .input-item {
+    .content {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      width: 80%;
-      margin-bottom: 20px;
-      color: $green-lightest;
-      input {
-        height: $item-size-sm;
+      width: 100%;
+      height: calc(100% - $item-size);
+      overflow: scroll;
+      .input-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 80%;
+        margin-bottom: 20px;
+        color: $green-lightest;
+        input {
+          height: $item-size-sm;
+        }
       }
-    }
-    .switch {
-      justify-content: flex-start;
-      width: 80%;
-      margin-bottom: 20px;
-      .label {
-        width: 41%;
+      .switch {
+        justify-content: flex-start;
+        width: 80%;
+        margin-bottom: 20px;
+        .label {
+          width: 41%;
+        }
       }
-    }
-    button {
-      width: 120px;
-      height: $item-size-sm;
-      margin-top: 20px;
-    }
-    .divider {
-      width: 90%;
-      height: 1px;
-      margin: 20px 0 10px;
-      background: $green-lighter;
-    }
-    .other-btns {
-      width: calc(80% + 20px);
-      display: flex;
-      flex-wrap: wrap;
       button {
-        margin: 10px;
+        width: 120px;
+        height: $item-size-sm;
+        margin-top: 20px;
+        background-color: $green;
+      }
+      .divider {
+        width: 90%;
+        height: 1px;
+        margin: 20px 0 10px;
+        background: $green-lighter;
+      }
+      .other-btns {
+        width: calc(80% + 20px);
+        display: flex;
+        flex-wrap: wrap;
+        button {
+          margin: 10px;
+        }
       }
     }
   }

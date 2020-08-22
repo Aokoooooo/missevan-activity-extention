@@ -104,21 +104,23 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
           x
         </div>
       </div>
-      <div className="input-item">
-        <div className="label">活动 ID</div>
-        <input
-          value={eventId}
-          onChange={(e) => setEventId(e.target.value)}
-          onKeyPress={onEnter}
-        />
-      </div>
-      <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
-      <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
-      <Switch label="需要加特林" onChange={setNeedJtl} />
-      <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
-      <div className="divider" />
-      <div className="other-btns">
-        <button onClick={onUpdateUserInfo}>同步用户信息</button>
+      <div className="content">
+        <div className="input-item">
+          <div className="label">活动 ID</div>
+          <input
+            value={eventId}
+            onChange={(e) => setEventId(e.target.value)}
+            onKeyPress={onEnter}
+          />
+        </div>
+        <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
+        <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
+        <Switch label="需要加特林" onChange={setNeedJtl} />
+        <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
+        <div className="divider" />
+        <div className="other-btns">
+          <button onClick={onUpdateUserInfo}>同步用户信息</button>
+        </div>
       </div>
     </div>
   )

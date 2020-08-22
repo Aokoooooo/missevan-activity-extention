@@ -102,7 +102,7 @@ const DevPannel = () => {
         }
       }
     })
-    // 初始化时同步 store 数据
+    // 同步 store 数据
     init()
   }, [])
   // 更新 setEvents 函数

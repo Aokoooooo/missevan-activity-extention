@@ -10,6 +10,7 @@
     font-size: $item-size-sm;
   }
   button {
+    @include hover($green-lighter);
     width: 150px;
     height: $item-size;
     margin-top: $item-size;

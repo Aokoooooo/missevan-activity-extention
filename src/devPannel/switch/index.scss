@@ -6,6 +6,7 @@
   height: $item-size-sm;
   .label {
     color: $green-lightest;
+    line-height: $item-size-sm;
   }
   .switch-item {
     width: 80px;
@@ -13,7 +14,8 @@
     padding: 2px;
     border-radius: $item-size-sm;
     background: $grey-light;
-    transition: background .3s;
+    transition: background 0.3s;
+    box-shadow: 0 0 2px $green-light;
     cursor: pointer;
     &.active {
       background: $green;
@@ -24,9 +26,13 @@
       height: $item-size-sm;
       border-radius: 50%;
       background: $green-lightest;
-      transition: transform .3s;
+      transition: transform 0.3s, box-shadow 0.3s;
       &.active {
         transform: translateX(calc(80px - #{$item-size-sm}));
+        box-shadow: 0 0 6px $green-lighter;
+        &:hover {
+          box-shadow: 0px 0px 10px $green-lightest;
+        }
       }
     }
   }

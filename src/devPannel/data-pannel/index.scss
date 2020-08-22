@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: calc(100% - #{$item-size});
+    height: calc(100% - #{$item-size * 2});
     .header {
       display: flex;
       width: 100%;
@@ -25,7 +25,7 @@
     }
     .content {
       width: 100%;
-      height: 100%;
+      height: calc(100% - #{$item-size-sm});
       overflow: scroll;
       color: $white;
       div {
@@ -113,6 +113,29 @@
         background: $green-light;
         color: $green-lightest-max;
       }
+    }
+  }
+  .data-updator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $item-size;
+    padding: 0 5px;
+    .switch {
+      width: 20%;
+      height: $item-size-sm;
+    }
+    .value-inputer {
+      flex: 1;
+      height: $item-size-sm;
+      margin: 0 10px;
+    }
+    .submit-btn {
+      width: 60px;
+      height: $item-size-sm;
+      background: $green;
+      color: $white;
+      cursor: pointer;
     }
   }
 }

@@ -32,12 +32,12 @@ function subscribeMissEvanEventsData() {
 
 // 初始化 MissEvanEvents 的拦截和订阅
 function initMissEvan() {
-  if (!window.MissEvanEvents || window.MissEvanEvents._extension_init) {
+  // 当前页面没有 MissEvanEvents 对象
+  if (!window.MissEvanEvents) {
     return
   }
   rewriteMissEvanEventsBusEmit()
   subscribeMissEvanEventsData()
-  window.MissEvanEvents._extension_init = true
 }
 
 // 摆脱安全限制，将函数注入到页面

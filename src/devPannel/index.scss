@@ -5,6 +5,7 @@ $green: #08979c;
 $green-light: #13c2c2;
 $green-lighter: #36cfc9;
 $green-lightest: #b5f5ec;
+$green-lightest-max: #e6fffb;
 $white: #fff;
 $red-light: #ff4d4f;
 $grey: #8c8c8c;
@@ -66,7 +67,7 @@ $item-size-xxxs: 12px;
     }
   }
 }
-
+@import 'error-page';
 @import 'event-pannel';
 @import 'data-pannel';
 @import 'setting-bar';

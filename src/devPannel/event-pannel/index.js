@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { DevPannelCtx } from '..'
 
 export const EventPannel = () => {
-  const { events, sendMessage, toast, evalCode } = useContext(DevPannelCtx)
+  const { events, toast, evalCode } = useContext(DevPannelCtx)
   const [type, setType] = useState('')
   const [data, setData] = useState('')
   const [typeError, setTypeError] = useState(false)
@@ -23,24 +23,23 @@ export const EventPannel = () => {
       setTypeError(true)
       return
     }
-    if (dataError) {
+    // 数据不为空时必须为数组
+    if (dataError || (data !== '' && !/^\[.*\]$/.test(data))) {
       setDataError(true)
       toast('参数要求为 JSON 数组')
       return
     }
-    // 数据必须为 JSON 格式
     try {
+      // 检测 JSON 格式
       JSON.parse(data || '[]')
     } catch (e) {
       setDataError(true)
       toast('参数要求为 JSON 数组')
+      return
     }
     // 在页面中执行 emit
     const code = `window.MissEvanEvents.bus.emit('${type}', ...${data || '[]'})`
-    evalCode(code, null, (e) => {
-      sendMessage(e)
-      toast(JSON.stringify(e))
-    })
+    evalCode(code)
   }
   const onEnter = (e) => {
     if (e.key === 'Enter') {
@@ -76,11 +75,7 @@ export const EventPannel = () => {
         />
         <input
           className={classNames('value-inputer', { error: dataError })}
-          placeholder={`${
-            dataError
-              ? '数据须符合 JSON 格式'
-              : '填写 JSON 格式的数据，不为空时必须为数组形式'
-          }`}
+          placeholder="数据不为空要求为 JSON 数组"
           onChange={onDataChange}
           onKeyPress={onEnter}
         />

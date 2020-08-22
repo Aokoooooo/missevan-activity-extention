@@ -42,6 +42,12 @@
           &:hover {
             background: $green;
           }
+          &.clickable {
+            cursor: pointer;
+          }
+          &:not(.clickable) {
+            cursor: default;
+          }
           &.open {
             flex-direction: column;
             align-items: flex-start;
@@ -49,9 +55,6 @@
             &:hover {
               background: $green-darker;
             }
-          }
-          &.clickable {
-            cursor: pointer;
           }
           .left {
             display: flex;

@@ -1,10 +1,17 @@
-import React, { useEffect, useState, useRef, createContext } from 'react'
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  createContext,
+  useCallback,
+} from 'react'
 import ReactDom from 'react-dom'
 import './index.scss'
 import { DataPannel } from './data-pannel'
 import { EventPannel } from './event-pannel'
 import { MESSAGE_SOURCE, MESSAGE_DATA_TYPE } from '../utils/constants'
 import { SettingBar } from './setting-bar'
+import { ErrorPage } from './error-page'
 
 const Toast = ({ msg }) => {
   return (
@@ -20,6 +27,14 @@ const DevPannel = () => {
   const baseInfo = useRef()
   const [data, setData] = useState({})
   const [events, setEvents] = useState([])
+  const [initError, setInitError] = useState(false)
+  const appendEvents = useCallback(
+    (newEvent) => {
+      setEvents([...events, newEvent])
+    },
+    [events, setEvents]
+  )
+  const appendEventsRef = useRef(appendEvents)
 
   // 发消息给 background
   const sendMessage = (payload) => {
@@ -39,21 +54,33 @@ const DevPannel = () => {
     }, 2000)
   }
   // 在页面中执行代码
-  const evalCode = (code, onSuccess, onErr) => {
-    chrome.devtools.inspectedWindow.eval(code, (r, e) => {
-      if (r && onSuccess) {
-        onSuccess(r)
-      }
-      if (e) {
-        sendMessage(e)
-        toast(JSON.stringify(e))
-        if (onErr) {
-          onErr(e)
+  const evalCode = (code, hideToast) => {
+    return new Promise((resolve, reject) => {
+      chrome.devtools.inspectedWindow.eval(code, (r, e) => {
+        if (e) {
+          if (!hideToast) {
+            toast(JSON.stringify(e))
+          }
+          console.error(e)
+          reject(e)
+          return
         }
-      }
+        resolve(r)
+      })
     })
   }
+  const init = () => {
+    evalCode('window.MissEvanEvents.getValue()', true)
+      .then((r) => {
+        setData(r)
+        setInitError(false)
+      })
+      .catch(() => {
+        setInitError(true)
+      })
+  }
 
+  // 初始化
   useEffect(() => {
     // 缓存当前标签页 ID
     const { tabId } = chrome.devtools.inspectedWindow
@@ -63,20 +90,27 @@ const DevPannel = () => {
     })
     // 监听 background 消息
     port.onMessage.addListener((message) => {
-      if (message.type === MESSAGE_DATA_TYPE.EVENT) {
-        setEvents([...events, message.payload])
-      } else if (message.type === MESSAGE_DATA_TYPE.DATA) {
-        setData(message.payload)
+      switch (message.type) {
+        case MESSAGE_DATA_TYPE.EVENT: {
+          appendEventsRef.current(message.payload)
+          return
+        }
+        case MESSAGE_DATA_TYPE.DATA: {
+          setData(message.payload)
+          return
+        }
       }
     })
     // 缓存链接和 ID
     baseInfo.current = { port, tabId }
-  }, [])
-
-  useEffect(() => {
     // 初始化时同步 store 数据
-    evalCode('window.MissEvanEvents.getValue()', setData)
+    init()
   }, [])
+  // 更新 setEvents 函数
+  useEffect(() => {
+    appendEventsRef.current = appendEvents
+  }, [appendEvents])
+
   return (
     <DevPannelCtx.Provider
       value={{
@@ -88,11 +122,17 @@ const DevPannel = () => {
       }}
     >
       <div className="dev-pannel">
-        <div className="pannel-container">
-          <DataPannel />
-          <EventPannel />
-        </div>
-        <SettingBar />
+        {initError ? (
+          <ErrorPage init={init} />
+        ) : (
+          <>
+            <div className="pannel-container">
+              <DataPannel />
+              <EventPannel />
+            </div>
+            <SettingBar />
+          </>
+        )}
       </div>
     </DevPannelCtx.Provider>
   )

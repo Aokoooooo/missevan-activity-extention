@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
+import { LeftPannel } from './left-pannel'
 
 export const SettingBar = () => {
   const [leftPannelShow, setLeftPannelShow] = useState(false)
@@ -7,32 +8,7 @@ export const SettingBar = () => {
   return (
     <div className="setting-bar">
       {/* 初始化配置面板 */}
-      <div className={classNames('left-pannel', { show: leftPannelShow })}>
-        <div className="header">
-          <div />
-          <div className="title">初始化环境</div>
-          <div className="close-btn" onClick={() => setLeftPannelShow(false)}>
-            x
-          </div>
-        </div>
-        <div className="input-item">
-          <div className="label">活动 ID</div>
-          <input />
-        </div>
-        <div className="input-item">
-          <div className="label">PC 环境</div>
-          <input />
-        </div>
-        <div className="input-item">
-          <div className="label">UAT 环境</div>
-          <input />
-        </div>
-        <div className="input-item">
-          <div className="label">需要加特林</div>
-          <input />
-        </div>
-        <button>确认</button>
-      </div>
+      <LeftPannel leftPannelShow={leftPannelShow} setLeftPannelShow={setLeftPannelShow} />
       {/* setting bar buttons */}
       <button className="init-btn" onClick={() => setLeftPannelShow(true)}>
         初始化

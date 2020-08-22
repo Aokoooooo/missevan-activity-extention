@@ -11,7 +11,7 @@
       background-color: $green-dark;
       line-height: $item-size-sm;
       div {
-        @include hover;
+        @include hover($green-lighter);
         color: $green-lightest;
         text-align: center;
       }

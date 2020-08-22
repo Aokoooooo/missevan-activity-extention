@@ -92,6 +92,14 @@ const DevPannel = () => {
           setData(message.payload)
           return
         }
+        case MESSAGE_DATA_TYPE.INIT_ERROR: {
+          setInitError(true)
+          return
+        }
+        case MESSAGE_DATA_TYPE.INIT: {
+          setInitError(false)
+          return
+        }
       }
     })
     // 初始化时同步 store 数据

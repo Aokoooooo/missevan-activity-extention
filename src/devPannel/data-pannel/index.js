@@ -67,7 +67,14 @@ export const DataPannel = () => {
       }
     })
   }
-
+  const onSwitchClick = (state) => {
+    setError(false)
+    setIsFullUpdate(state)
+  }
+  const onUpdateDataChange = (e) => {
+    setError(false)
+    setUpdateData(e.target.value)
+  }
   const onSubmit = () => {
     if (error || (updateData !== '' && !/^\{.*\}$/.test(updateData))) {
       setError(true)
@@ -102,7 +109,11 @@ export const DataPannel = () => {
 
   useEffect(() => {
     clipboardRef.current = new ClipboardJS('.copy-btn')
-    return clipboardRef.current.destroy
+    return () => {
+      if (clipboardRef.current) {
+        clipboardRef.current.destroy()
+      }
+    }
   }, [])
 
   return (
@@ -140,12 +151,12 @@ export const DataPannel = () => {
         <Switch
           label="全量更新"
           value={isFullUpdate}
-          onChange={setIsFullUpdate}
+          onChange={onSwitchClick}
         />
         <input
           className={classNames('value-inputer', { error })}
           placeholder="数据不为空要求为 JSON 对象"
-          onChange={(e) => setUpdateData(e.target.value)}
+          onChange={onUpdateDataChange}
           onKeyPress={onEnter}
         />
         <button className="submit-btn" onClick={onSubmit}>

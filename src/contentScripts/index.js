@@ -1,17 +1,14 @@
+// 向 background 发送消息
+function sendMessage(type, payload) {
+  window.postMessage({ source: 'MissEvanActivityPage', type, payload }, '*')
+}
 // 替换 bus.emit，监听所有发布的事件
 function rewriteMissEvanEventsBusEmit() {
   const _emit = window.MissEvanEvents.bus.emit
   window.MissEvanEvents.bus._emit = _emit
   // 发布事件前和 background 同步一下
   window.MissEvanEvents.bus.emit = function (type, ...args) {
-    window.postMessage(
-      {
-        source: 'MissEvanActivityPage',
-        type: 'missevan-event-bus',
-        payload: { type, data: args },
-      },
-      '*'
-    )
+    sendMessage('missevan-event-bus', { type, data: args })
     window.MissEvanEvents.bus._emit(type, ...args)
   }
 }
@@ -19,14 +16,7 @@ function rewriteMissEvanEventsBusEmit() {
 // 订阅数据流
 function subscribeMissEvanEventsData() {
   window.MissEvanEvents.obs.subscribe((data) => {
-    window.postMessage(
-      {
-        source: 'MissEvanActivityPage',
-        type: 'missevan-event-data',
-        payload: data,
-      },
-      '*'
-    )
+    sendMessage('missevan-event-data', data)
   })
 }
 
@@ -69,12 +59,13 @@ function updateJtlDom(type, jsUrl, cssUrl) {
 
 // 初始化 MissEvanEvents 的拦截和订阅
 function initMissEvan() {
-  // 当前页面没有 MissEvanEvents 对象
-  if (!window.MissEvanEvents) {
-    return
+  try {
+    rewriteMissEvanEventsBusEmit()
+    subscribeMissEvanEventsData()
+    sendMessage('missevan-devtools-init')
+  } catch (e) {
+    sendMessage('missevan-devtools-init-error')
   }
-  rewriteMissEvanEventsBusEmit()
-  subscribeMissEvanEventsData()
 }
 
 // 摆脱安全限制，将函数注入到页面
@@ -84,6 +75,7 @@ function insertScripts(text) {
   document.body.appendChild(script)
 }
 
+insertScripts(sendMessage.toString())
 insertScripts(rewriteMissEvanEventsBusEmit.toString())
 insertScripts(subscribeMissEvanEventsData.toString())
 insertScripts(`${initMissEvan}\ninitMissEvan()`)

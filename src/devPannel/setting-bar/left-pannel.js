@@ -19,6 +19,7 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       return
     }
     setLoading(true)
+    // 更新加特林
     const { jsUrl, cssUrl } = MISSEVAN_URL.JTL_URL(isUAT)
     evalCode(
       UPDATE_JTL_DOM(
@@ -27,7 +28,15 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
         cssUrl
       )
     )
-    // 更新 store
+    // 更新基础信息
+    const baseInfo = { eventId, isPC, isUAT }
+    evalCode(UPDATE_STORE(JSON.stringify(baseInfo)))
+    toast('基础信息更新成功')
+    if (!eventId) {
+      setLoading(false)
+      return
+    }
+    // 更新活动信息
     getFetch({
       url: `${MISSEVAN_URL.API_URL(isUAT)}/mobileWeb/getevent?id=${eventId}`,
     })
@@ -38,22 +47,15 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
           description: r.info.short_intro,
           url: `${MISSEVAN_URL.API_URL(isUAT)}/mevent/${eventId}`,
         }
-        const eventData = {
+        const eventData = JSON.stringify({
           isEnd: r.info.end_time * 1000 < Date.now(),
           isStart: r.info.create_time * 1000 < Date.now(),
           shareOpts,
           info: r.info,
-        }
-        const initStoreState = {
-          eventId,
-          isPC,
-          isUAT,
-          eventData,
-        }
-        evalCode(UPDATE_STORE(JSON.stringify(initStoreState)))
+        })
+        evalCode(UPDATE_STORE(`{ ...state, eventData: ${eventData} }`))
           .then(() => {
-            toast('更新成功')
-            setLeftPannelShow(false)
+            toast('活动数据更新成功')
           })
           .catch((e) => {})
       })
@@ -63,6 +65,21 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       })
       .finally(() => {
         setLoading(false)
+      })
+  }
+  const onUpdateUserInfo = () => {
+    getFetch({
+      url: `${MISSEVAN_URL.API_URL(isUAT)}/account/userinfo`,
+    })
+      .then((r) => {
+        evalCode(
+          UPDATE_STORE(`{ ...state, userInfo: ${JSON.stringify(r.info)}}`)
+        ).then(() => {
+          toast('用户信息更新成功')
+        })
+      })
+      .catch((e) => {
+        toast(e.message)
       })
   }
 
@@ -90,6 +107,10 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
       <Switch label="需要加特林" onChange={setNeedJtl} />
       <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
+      <div className="divider" />
+      <div className="other-btns">
+        <button onClick={onUpdateUserInfo}>同步用户信息</button>
+      </div>
     </div>
   )
 }

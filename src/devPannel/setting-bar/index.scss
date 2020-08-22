@@ -79,5 +79,19 @@
       height: $item-size-sm;
       margin-top: 20px;
     }
+    .divider {
+      width: 90%;
+      height: 1px;
+      margin: 20px 0 10px;
+      background: $green-lighter;
+    }
+    .other-btns {
+      width: calc(80% + 20px);
+      display: flex;
+      flex-wrap: wrap;
+      button {
+        margin: 10px;
+      }
+    }
   }
 }

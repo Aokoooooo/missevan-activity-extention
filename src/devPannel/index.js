@@ -9,9 +9,10 @@ import ReactDom from 'react-dom'
 import './index.scss'
 import { DataPannel } from './data-pannel'
 import { EventPannel } from './event-pannel'
-import { MESSAGE_SOURCE, MESSAGE_DATA_TYPE } from '../utils/constants'
+import { MESSAGE_SOURCE, MESSAGE_DATA_TYPE } from './utils/constants'
 import { SettingBar } from './setting-bar'
 import { ErrorPage } from './error-page'
+import { GET_STORE_VALUE } from './utils/actions'
 
 const Toast = ({ msg }) => {
   return (
@@ -62,7 +63,7 @@ const DevPannel = () => {
     })
   }
   const init = () => {
-    evalCode('window.MissEvanEvents.getValue()', true)
+    evalCode(GET_STORE_VALUE, true)
       .then((r) => {
         setData(r)
         setInitError(false)

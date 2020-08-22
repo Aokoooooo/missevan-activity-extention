@@ -9,6 +9,7 @@ $green-lightest-max: #e6fffb;
 $white: #fff;
 $red-light: #ff4d4f;
 $grey: #8c8c8c;
+$grey-light: #bfbfbf;
 $blue: #1890ff;
 $pink: #f759ab;
 
@@ -70,6 +71,8 @@ $item-size-xxxs: 12px;
     }
   }
 }
+
+@import "switch";
 @import 'error-page';
 @import 'event-pannel';
 @import 'data-pannel';

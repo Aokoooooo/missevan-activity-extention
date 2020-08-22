@@ -1,0 +1,33 @@
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: $item-size-sm;
+  .label {
+    color: $green-lightest;
+  }
+  .switch-item {
+    width: 80px;
+    height: $item-size-sm;
+    padding: 2px;
+    border-radius: $item-size-sm;
+    background: $grey-light;
+    transition: background .3s;
+    cursor: pointer;
+    &.active {
+      background: $green;
+    }
+    .switch-ball {
+      @include hover;
+      width: $item-size-sm;
+      height: $item-size-sm;
+      border-radius: 50%;
+      background: $green-lightest;
+      transition: transform .3s;
+      &.active {
+        transform: translateX(calc(80px - #{$item-size-sm}));
+      }
+    }
+  }
+}

@@ -30,6 +30,43 @@ function subscribeMissEvanEventsData() {
   })
 }
 
+// 添加，删除，更新加特林
+function updateJtlDom(type, jsUrl, cssUrl) {
+  if (!window.MISSEVAN_JTL_JS) {
+    window.MISSEVAN_JTL_JS = document.createElement('script')
+    window.MISSEVAN_JTL_JS.type = 'text/javascript'
+  }
+  if (!window.MISSEVAN_JTL_CSS) {
+    window.MISSEVAN_JTL_CSS = document.createElement('link')
+    window.MISSEVAN_JTL_CSS.rel = 'stylesheet'
+  }
+  function _add() {
+    window.MISSEVAN_JTL_JS.src = jsUrl
+    window.MISSEVAN_JTL_CSS.href = cssUrl
+    document.head.appendChild(window.MISSEVAN_JTL_CSS)
+    document.body.appendChild(window.MISSEVAN_JTL_JS)
+  }
+  function _del() {
+    try {
+      document.head.removeChild(window.MISSEVAN_JTL_CSS)
+      document.body.removeChild(window.MISSEVAN_JTL_JS)
+    } catch (e) {}
+  }
+  switch (type) {
+    case 'ADD': {
+      _del()
+      _add()
+      break
+    }
+    case 'DEL': {
+      _del()
+      break
+    }
+    default:
+      break
+  }
+}
+
 // 初始化 MissEvanEvents 的拦截和订阅
 function initMissEvan() {
   // 当前页面没有 MissEvanEvents 对象
@@ -50,6 +87,7 @@ function insertScripts(text) {
 insertScripts(rewriteMissEvanEventsBusEmit.toString())
 insertScripts(subscribeMissEvanEventsData.toString())
 insertScripts(`${initMissEvan}\ninitMissEvan()`)
+insertScripts(updateJtlDom.toString())
 
 // 监听页面内的消息发送给 background
 window.addEventListener('message', (e) => {

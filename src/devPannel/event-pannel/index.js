@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import classNames from 'classnames'
 import { DevPannelCtx } from '..'
+import { EMIT_EVENT } from '../utils/actions'
 
 export const EventPannel = () => {
   const { events, toast, evalCode } = useContext(DevPannelCtx)
@@ -38,8 +39,7 @@ export const EventPannel = () => {
       return
     }
     // 在页面中执行 emit
-    const code = `window.MissEvanEvents.bus.emit('${type}', ...${data || '[]'})`
-    evalCode(code)
+    evalCode(EMIT_EVENT(type, data))
   }
   const onEnter = (e) => {
     if (e.key === 'Enter') {

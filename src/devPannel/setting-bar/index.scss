@@ -65,9 +65,18 @@
         height: $item-size-sm;
       }
     }
+    .switch {
+      justify-content: flex-start;
+      width: 80%;
+      margin-bottom: 20px;
+      .label {
+        width: 41%;
+      }
+    }
     button {
       width: 120px;
       height: $item-size-sm;
+      margin-top: 20px;
     }
   }
 }

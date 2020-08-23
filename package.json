@@ -15,6 +15,7 @@
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
+    "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "eslint": "^7.4.0",
     "eslint-config-airbnb": "^18.2.0",
@@ -38,10 +39,11 @@
   "license": "MIT",
   "name": "missevan-activity-extention",
   "scripts": {
-    "build": "npm run pack && npm run remove-evals && npm run zip",
-    "start": "webpack --mode=development --env.NODE_ENV=development --progress --hide-modules --hot --watch",
-    "pack": "webpack --mode=production --env.NODE_ENV=production --progress --hide-modules",
+    "build": "cross-env npm run pack && npm run remove-evals && npm run zip",
+    "start": "cross-env npm run remove-dist && webpack --mode=development --env.NODE_ENV=development --progress --hide-modules --hot --watch",
+    "pack": "cross-env npm run remove-dist && webpack --mode=production --env.NODE_ENV=production --progress --hide-modules",
     "remove-evals": "node scripts/remove-evals.js",
+    "remove-dist": "cross-env rm -rf dist dist-zip",
     "zip": "node scripts/build-zip.js"
   },
   "version": "1.0.0"

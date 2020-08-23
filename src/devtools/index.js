@@ -4,5 +4,16 @@ import { MISSEVAN_PANNEL_NAME } from '../devPannel/utils/constants'
 function createPanel(url) {
   chrome.devtools.panels.create(MISSEVAN_PANNEL_NAME, null, url)
 }
-
-createPanel('devPannel.html')
+// 只有我方域名下才会创建 MissEvan 面板
+chrome.devtools.inspectedWindow.eval(
+  '(function(){ return this.location.host })()',
+  (r, e) => {
+    if (e) {
+      console.log(e)
+      return
+    }
+    if (r.endsWith('.missevan.com') || r.endsWith('.bilibili.com')) {
+      createPanel('devPannel.html')
+    }
+  }
+)

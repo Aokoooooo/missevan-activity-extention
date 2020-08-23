@@ -25,6 +25,9 @@ $item-size-xxs: 14px;
   color: $green-lightest-max;
   text-align: center;
 }
+.hidden {
+  display: none !important;
+}
 .dev-pannel {
   display: flex;
   flex-direction: column;
@@ -46,9 +49,6 @@ $item-size-xxs: 14px;
       min-width: 360px;
       height: 100%;
       flex: 1;
-      &.hidden {
-        display: none;
-      }
       .title {
         height: $item-size;
         background: $green;

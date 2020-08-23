@@ -133,19 +133,19 @@ export const DataPannel = ({ className }) => {
           </div>
         </div>
         <div className="content">
-          {isPreview ? (
-            <div className="preview">{renderedPreview}</div>
-          ) : (
-            <>
-              <div className="json" id="stringifiedData">
-                {stringifiedData}
-              </div>
-              <button
-                className="copy-btn"
-                data-clipboard-target="#stringifiedData"
-              />
-            </>
-          )}
+          <div className={classNames('preview', { hidden: !isPreview })}>
+            {renderedPreview}
+          </div>
+          <div
+            className={classNames('json', { hidden: isPreview })}
+            id="stringifiedData"
+          >
+            {stringifiedData}
+          </div>
+          <button
+            className={classNames('copy-btn', { hidden: isPreview })}
+            data-clipboard-target="#stringifiedData"
+          />
         </div>
       </div>
       {/* store 更新表单 */}

@@ -17,7 +17,7 @@ chrome.runtime.onConnect.addListener(function (port) {
   // 连接关闭后移除监听和缓存
   port.onDisconnect.addListener(function (port) {
     const tabId = getPortId(port)
-    if (tabId && tabId in connections) {
+    if (tabId in connections) {
       delete connections[tabId]
     }
   })

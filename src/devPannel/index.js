@@ -19,6 +19,7 @@ import { toast } from './toast'
 const SMALL_LAYOUT_WIDTH = 720
 let resizeTimeout
 export const DevPannelCtx = createContext({})
+const IS_DEV = process.env.NODE_ENV === 'development'
 const APP = document.getElementById('app')
 const DevPannel = () => {
   const [data, setData] = useState({})
@@ -122,6 +123,7 @@ const DevPannel = () => {
   return (
     <DevPannelCtx.Provider
       value={{
+        dev: IS_DEV,
         data,
         events,
         evalCode,

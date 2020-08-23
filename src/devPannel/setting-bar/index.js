@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { LeftPannel } from './left-pannel'
+import { DevPannelCtx } from '..'
 
 export const SettingBar = ({ setEvents }) => {
+  const { dev } = useContext(DevPannelCtx)
   const [leftPannelShow, setLeftPannelShow] = useState(false)
 
   const onClearEventsClick = () => {
     setEvents([])
+  }
+  const onReloadClick = () => {
+    window.location.reload()
   }
 
   return (
@@ -20,6 +25,7 @@ export const SettingBar = ({ setEvents }) => {
         初始化
       </button>
       <button onClick={onClearEventsClick}>清空事件</button>
+      {dev && <button onClick={onReloadClick}>重载</button>}
     </div>
   )
 }

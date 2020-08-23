@@ -13,13 +13,11 @@ $grey-light: #bfbfbf;
 $blue: #1890ff;
 $pink: #f759ab;
 
-$item-size-lg: 50px;
 $item-size-md: 44px;
 $item-size: 36px;
 $item-size-sm: 24px;
 $item-size-xs: 16px;
 $item-size-xxs: 14px;
-$item-size-xxxs: 12px;
 
 @import 'base';
 
@@ -56,9 +54,16 @@ $item-size-xxxs: 12px;
     }
     .data-pannel,
     .event-pannel {
-      max-width: 50%;
+      @media screen and (max-width:720px) {
+        width: 100%;
+      }
+      width: 50%;
+      min-width: 360px;
       height: 100%;
       flex: 1;
+      &.hidden {
+        display: none;
+      }
       .title {
         height: $item-size;
         background: $green;
@@ -69,10 +74,22 @@ $item-size-xxxs: 12px;
         cursor: default;
       }
     }
+    .visible-changer {
+      @include hover($green-lighter);
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 60px;
+      height: $item-size-sm;
+      border-radius: 4px;
+      background: $green-lighter;
+      color: $white;
+      font-size: $item-size-xxs;
+    }
   }
 }
 
-@import "switch";
+@import 'switch';
 @import 'error-page';
 @import 'event-pannel';
 @import 'data-pannel';

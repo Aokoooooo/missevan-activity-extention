@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { DevPannelCtx } from '..'
 import { EMIT_EVENT } from '../utils/actions'
 
-export const EventPannel = () => {
+export const EventPannel = ({ className }) => {
   const { events, toast, evalCode } = useContext(DevPannelCtx)
   const [type, setType] = useState('')
   const [data, setData] = useState('')
@@ -48,7 +48,7 @@ export const EventPannel = () => {
   }
 
   return (
-    <div className="event-pannel">
+    <div className={classNames('event-pannel', className)}>
       <div className="title">EVENT INFO</div>
       <div className="event-container">
         <div className="header">

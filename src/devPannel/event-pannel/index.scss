@@ -68,6 +68,7 @@
     .submit-btn {
       @include hover($green-lighter);
       width: 60px;
+      min-width: 40px;
       background: $green;
       color: $white;
       cursor: pointer;

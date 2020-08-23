@@ -98,15 +98,23 @@
           .red {
             color: $red-light;
           }
+          .grey,
+          .blue,
+          .red {
+            white-space: nowrap;
+          }
         }
       }
       .json {
         white-space: pre;
       }
       .copy-btn {
+        @media screen and (max-width: 720px) {
+          right: #{$item-size-md * 0.5};
+        }
         position: fixed;
         top: 80px;
-        left: 45vw;
+        right: calc(#{$item-size-md * 0.5} + 50vw);
         width: $item-size-md;
         height: $item-size-md;
         border-radius: 50%;
@@ -122,7 +130,8 @@
     height: $item-size;
     padding: 0 5px;
     .switch {
-      width: 20%;
+      width: 17%;
+      min-width: 120px;
       height: $item-size-sm;
     }
     .value-inputer {
@@ -133,6 +142,7 @@
     .submit-btn {
       @include hover($green-lighter);
       width: 60px;
+      min-width: 40px;
       height: $item-size-sm;
       background: $green;
       color: $white;

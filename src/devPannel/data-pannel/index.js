@@ -6,7 +6,7 @@ import { PreviewItem } from './preview-item'
 import { Switch } from '../switch'
 import { UPDATE_STORE } from '../utils/actions'
 
-export const DataPannel = () => {
+export const DataPannel = ({ className }) => {
   const { data, toast, evalCode } = useContext(DevPannelCtx)
   const [isPreview, setIsPreview] = useState(true)
   const [isFullUpdate, setIsFullUpdate] = useState(false)
@@ -109,6 +109,9 @@ export const DataPannel = () => {
 
   useEffect(() => {
     clipboardRef.current = new ClipboardJS('.copy-btn')
+    clipboardRef.current.on('success', () => {
+      toast('复制成功')
+    })
     return () => {
       if (clipboardRef.current) {
         clipboardRef.current.destroy()
@@ -117,7 +120,7 @@ export const DataPannel = () => {
   }, [])
 
   return (
-    <div className="data-pannel">
+    <div className={classNames('data-pannel', className)}>
       <div className="title">DATA INFO</div>
       <div className="data-container">
         <div className="header">

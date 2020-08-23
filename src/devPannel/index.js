@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from 'react'
 import ReactDom from 'react-dom'
+import classNames from 'classnames'
 import './index.scss'
 import { DataPannel } from './data-pannel'
 import { EventPannel } from './event-pannel'
@@ -21,13 +22,18 @@ const Toast = ({ msg }) => {
     </div>
   )
 }
-
+const SMALL_LAYOUT_WIDTH = 720
+let resizeTimeout
 export const DevPannelCtx = createContext({})
 const APP = document.getElementById('app')
 const DevPannel = () => {
   const [data, setData] = useState({})
   const [events, setEvents] = useState([])
   const [initError, setInitError] = useState(false)
+  const [isSmallLayout, setIsSmallLayout] = useState(
+    window.innerWidth < SMALL_LAYOUT_WIDTH
+  )
+  const [isDataPannelVisible, setIsDataPannelVisible] = useState(true)
   const appendEvents = useCallback(
     (newEvent) => {
       setEvents([...events, newEvent])
@@ -72,6 +78,21 @@ const DevPannel = () => {
         setInitError(true)
       })
   }
+  // 720 以下宽度布局调整
+  const onPageSizeChange = () => {
+    console.log(window.innerWidth)
+    setIsSmallLayout(window.innerWidth < SMALL_LAYOUT_WIDTH)
+  }
+  // 节流，15fps
+  const resizeThrottler = () => {
+    if (!resizeTimeout) {
+      resizeTimeout = setTimeout(function () {
+        resizeTimeout = null
+        onPageSizeChange()
+        // 15fps
+      }, 66)
+    }
+  }
 
   // 初始化
   useEffect(() => {
@@ -109,6 +130,11 @@ const DevPannel = () => {
   useEffect(() => {
     appendEventsRef.current = appendEvents
   }, [appendEvents])
+  // 检测宽度变化，切换不同布局
+  useEffect(() => {
+    window.addEventListener('resize', resizeThrottler)
+    return () => window.removeEventListener('resize', resizeThrottler)
+  }, [])
 
   return (
     <DevPannelCtx.Provider
@@ -125,8 +151,24 @@ const DevPannel = () => {
         ) : (
           <>
             <div className="pannel-container">
-              <DataPannel />
-              <EventPannel />
+              <DataPannel
+                className={classNames({
+                  hidden: isSmallLayout && !isDataPannelVisible,
+                })}
+              />
+              <EventPannel
+                className={classNames({
+                  hidden: isSmallLayout && isDataPannelVisible,
+                })}
+              />
+              {isSmallLayout && (
+                <button
+                  className="visible-changer"
+                  onClick={() => setIsDataPannelVisible(!isDataPannelVisible)}
+                >
+                  切换
+                </button>
+              )}
             </div>
             <SettingBar setEvents={setEvents} />
           </>

@@ -2,6 +2,7 @@
   display: flex;
   z-index: 3;
   align-items: center;
+  min-width: 360px;
   height: $item-size;
   padding: 0 10px;
   background: $green;

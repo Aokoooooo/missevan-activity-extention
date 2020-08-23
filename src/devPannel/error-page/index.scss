@@ -8,6 +8,7 @@
   .title {
     color: $green-lightest;
     font-size: $item-size-sm;
+    text-align: center;
   }
   button {
     @include hover($green-lighter);

@@ -19,15 +19,6 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       return
     }
     setLoading(true)
-    // 更新加特林
-    const { jsUrl, cssUrl } = MISSEVAN_URL.JTL_URL(isUAT)
-    evalCode(
-      UPDATE_JTL_DOM(
-        needJtl ? MISSEVAN_JTL_UPDATE_TYPE.ADD : MISSEVAN_JTL_UPDATE_TYPE.DEL,
-        jsUrl,
-        cssUrl
-      )
-    )
     // 更新基础信息
     const baseInfo = { eventId, isPC, isUAT }
     evalCode(UPDATE_STORE(JSON.stringify(baseInfo)))
@@ -87,6 +78,18 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       onSubmit()
     }
   }
+  const onJtlClick = () => {
+    setNeedJtl(!needJtl)
+    // 更新加特林
+    const { jsUrl, cssUrl } = MISSEVAN_URL.JTL_URL(isUAT)
+    evalCode(
+      UPDATE_JTL_DOM(
+        needJtl ? MISSEVAN_JTL_UPDATE_TYPE.DEL : MISSEVAN_JTL_UPDATE_TYPE.ADD,
+        jsUrl,
+        cssUrl
+      )
+    ).then(() => toast(needJtl ? '移除成功' : '添加成功'))
+  }
 
   useEffect(() => {
     // 自动同步 data 数据
@@ -115,11 +118,13 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
         </div>
         <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
         <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
-        <Switch label="需要加特林" onChange={setNeedJtl} />
         <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
         <div className="divider" />
         <div className="other-btns">
           <button onClick={onUpdateUserInfo}>同步用户信息</button>
+          <button onClick={onJtlClick}>
+            {needJtl ? '移除加特林' : '引入加特林'}
+          </button>
         </div>
       </div>
     </div>

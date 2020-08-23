@@ -84,7 +84,7 @@ export const DataPannel = ({ className }) => {
     }
     try {
       // 检测 JSON 格式
-      JSON.parse(updateData || '{}')
+      JSON.parse(updateData)
     } catch (e) {
       setError(true)
       toast('参数要求为 JSON 对象')
@@ -92,7 +92,7 @@ export const DataPannel = ({ className }) => {
     }
     // 在页面中执行 next
     const objStringPrefix = isFullUpdate ? '' : '...state, '
-    const objString = `{ ${objStringPrefix}...${updateData || '{}'} }`
+    const objString = `{ ${objStringPrefix}...${updateData} }`
     evalCode(UPDATE_STORE(objString))
   }
   const onEnter = (e) => {

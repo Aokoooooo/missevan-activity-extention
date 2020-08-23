@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import classNames from 'classnames'
 
-
 export const PreviewItem = ({ itemKey, children, isObj, isArr, count }) => {
   const [open, setOpen] = useState(false)
   const isObject = isObj || isArr

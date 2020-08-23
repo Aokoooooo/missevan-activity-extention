@@ -33,11 +33,7 @@ function configFunc(env, argv) {
         },
         {
           test: /\.scss$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: /\.sass$/,
@@ -53,10 +49,7 @@ function configFunc(env, argv) {
         },
         {
           test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.(png|jpg|gif|svg)$/,
@@ -69,8 +62,7 @@ function configFunc(env, argv) {
       ],
     },
     resolve: {
-      alias: {
-      },
+      alias: {},
     },
     plugins: [
       new MiniCssExtractPlugin({

@@ -24,7 +24,6 @@
     "http://*/*",
     "https://*/*",
     "background",
-    "storage",
     "webRequest",
     "tabs",
     "<all_urls>",

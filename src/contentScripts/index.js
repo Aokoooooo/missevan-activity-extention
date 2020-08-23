@@ -75,11 +75,15 @@ function insertScripts(text) {
   document.body.appendChild(script)
 }
 
-insertScripts(sendMessage.toString())
-insertScripts(rewriteMissEvanEventsBusEmit.toString())
-insertScripts(subscribeMissEvanEventsData.toString())
-insertScripts(`${initMissEvan}\ninitMissEvan()`)
-insertScripts(updateJtlDom.toString())
+const codeTemplate = `
+  ${sendMessage}
+  ${rewriteMissEvanEventsBusEmit}
+  ${subscribeMissEvanEventsData}
+  ${initMissEvan}
+  initMissEvan()
+  ${updateJtlDom}
+`
+insertScripts(codeTemplate)
 
 // 监听页面内的消息发送给 background
 window.addEventListener('message', (e) => {

@@ -14,14 +14,8 @@ import { MESSAGE_SOURCE, MESSAGE_DATA_TYPE } from './utils/constants'
 import { SettingBar } from './setting-bar'
 import { ErrorPage } from './error-page'
 import { GET_STORE_VALUE } from './utils/actions'
+import { toast } from './toast'
 
-const Toast = ({ msg }) => {
-  return (
-    <div className="toast">
-      <div className="msg">{msg}</div>
-    </div>
-  )
-}
 const SMALL_LAYOUT_WIDTH = 720
 let resizeTimeout
 export const DevPannelCtx = createContext({})
@@ -42,16 +36,6 @@ const DevPannel = () => {
   )
   const appendEventsRef = useRef(appendEvents)
 
-  // 弹出toast
-  const toast = (msg) => {
-    const div = document.createElement('div')
-    APP.appendChild(div)
-    ReactDom.render(<Toast msg={msg} />, div)
-    setTimeout(() => {
-      ReactDom.unmountComponentAtNode(div)
-      APP.removeChild(div)
-    }, 2000)
-  }
   // 在页面中执行代码
   const evalCode = (code, hideToast) => {
     return new Promise((resolve, reject) => {
@@ -80,7 +64,6 @@ const DevPannel = () => {
   }
   // 720 以下宽度布局调整
   const onPageSizeChange = () => {
-    console.log(window.innerWidth)
     setIsSmallLayout(window.innerWidth < SMALL_LAYOUT_WIDTH)
   }
   // 节流，15fps
@@ -141,7 +124,6 @@ const DevPannel = () => {
       value={{
         data,
         events,
-        toast,
         evalCode,
       }}
     >

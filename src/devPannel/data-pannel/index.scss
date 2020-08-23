@@ -110,15 +110,19 @@
       }
       .copy-btn {
         @media screen and (max-width: 720px) {
-          right: #{$item-size-md * 0.5};
+          right: #{$item-size * 0.5};
         }
         position: fixed;
         top: 80px;
-        right: calc(#{$item-size-md * 0.5} + 50vw);
-        width: $item-size-md;
-        height: $item-size-md;
+        right: calc(#{$item-size * 0.5} + 50vw);
+        width: $item-size;
+        height: $item-size;
         border-radius: 50%;
-        background: $green-light;
+        background-color: $green-light;
+        background-image: url('../assets/icons/save.png');
+        background-repeat: no-repeat;
+        background-size: 60%;
+        background-position: center;
         color: $green-lightest-max;
       }
     }

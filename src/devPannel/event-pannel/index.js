@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react'
 import classNames from 'classnames'
 import { DevPannelCtx } from '..'
 import { EMIT_EVENT } from '../utils/actions'
+import { toast } from '../toast'
 
 export const EventPannel = ({ className }) => {
-  const { events, toast, evalCode } = useContext(DevPannelCtx)
+  const { events, evalCode } = useContext(DevPannelCtx)
   const [type, setType] = useState('')
   const [data, setData] = useState('')
   const [typeError, setTypeError] = useState(false)

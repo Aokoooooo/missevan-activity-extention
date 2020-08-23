@@ -5,9 +5,10 @@ import { DevPannelCtx } from '..'
 import { getFetch, MISSEVAN_URL } from '../utils/api'
 import { UPDATE_STORE, UPDATE_JTL_DOM } from '../utils/actions'
 import { MISSEVAN_JTL_UPDATE_TYPE } from '../utils/constants'
+import { toast } from '../toast'
 
 export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
-  const { data, evalCode, toast } = useContext(DevPannelCtx)
+  const { data, evalCode } = useContext(DevPannelCtx)
   const [eventId, setEventId] = useState('')
   const [isPC, setIsPC] = useState(false)
   const [isUAT, setIsUAT] = useState(false)

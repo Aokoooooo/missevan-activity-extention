@@ -5,9 +5,10 @@ import { DevPannelCtx } from '..'
 import { PreviewItem } from './preview-item'
 import { Switch } from '../switch'
 import { UPDATE_STORE } from '../utils/actions'
+import { toast } from '../toast'
 
 export const DataPannel = ({ className }) => {
-  const { data, toast, evalCode } = useContext(DevPannelCtx)
+  const { data, evalCode } = useContext(DevPannelCtx)
   const [isPreview, setIsPreview] = useState(true)
   const [isFullUpdate, setIsFullUpdate] = useState(false)
   const [updateData, setUpdateData] = useState('')
@@ -142,9 +143,7 @@ export const DataPannel = ({ className }) => {
               <button
                 className="copy-btn"
                 data-clipboard-target="#stringifiedData"
-              >
-                复制
-              </button>
+              />
             </>
           )}
         </div>

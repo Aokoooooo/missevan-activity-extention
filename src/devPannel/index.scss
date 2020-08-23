@@ -20,27 +20,11 @@ $item-size-xs: 16px;
 $item-size-xxs: 14px;
 
 @import 'base';
-
-.toast {
-  display: flex;
-  position: fixed;
-  z-index: 10;
-  top: 40%;
-  right: 0;
-  left: 0;
-  flex: 0;
-  justify-content: center;
-  align-items: center;
-  .msg {
-    padding: 10px;
-    min-width: 50px;
-    border-radius: 4px;
-    background: $green-darkest;
-    color: $white;
-    font-size: 14px;
-  }
+.rc-notification .rc-notification-notice {
+  background: $green-darkest;
+  color: $green-lightest-max;
+  text-align: center;
 }
-
 .dev-pannel {
   display: flex;
   flex-direction: column;
@@ -54,7 +38,7 @@ $item-size-xxs: 14px;
     }
     .data-pannel,
     .event-pannel {
-      @media screen and (max-width:720px) {
+      @media screen and (max-width: 720px) {
         width: 100%;
         border: none;
       }

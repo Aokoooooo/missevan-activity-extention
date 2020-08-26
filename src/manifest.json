@@ -7,7 +7,12 @@
     {
       "all_frames": false,
       "js": ["./contentScripts.js"],
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": [
+        "http://*.missevan.com/*",
+        "http://*.bilibili.com/*",
+        "https://*.missevan.com/*",
+        "https://*.bilibili.com/*"
+      ],
       "run_at": "document_end"
     }
   ],
@@ -21,14 +26,11 @@
   "manifest_version": 2,
   "name": "missevan-activity-devtools",
   "permissions": [
-    "http://*/*",
-    "https://*/*",
-    "background",
-    "webRequest",
-    "tabs",
-    "<all_urls>",
-    "clipboardWrite",
-    "cookies"
+    "http://*.missevan.com/*",
+    "http://*.bilibili.com/*",
+    "https://*.missevan.com/*",
+    "https://*.bilibili.com/*",
+    "clipboardWrite"
   ],
   "version": "1.0.1",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"

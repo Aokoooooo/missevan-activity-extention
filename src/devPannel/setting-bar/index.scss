@@ -74,6 +74,10 @@
         input {
           height: $item-size-sm;
         }
+        select {
+          width: 164px;
+          height: 24px;
+        }
       }
       .switch {
         justify-content: flex-start;
@@ -92,8 +96,14 @@
       .divider {
         width: 90%;
         height: 1px;
-        margin: 20px 0 10px;
-        background: $green-lighter;
+        margin: 20px 0;
+        color: $green-lighter;
+        text-align: center;
+        &::before {
+          content: '';
+          display: block;
+          border-top: 1px solid $green-lighter;
+        }
       }
       .other-btns {
         width: calc(80% + 20px);

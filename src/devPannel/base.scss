@@ -25,7 +25,8 @@ html {
 }
 
 button,
-input {
+input,
+select {
   border: none;
   border-radius: 4px;
   outline: none;
@@ -58,6 +59,10 @@ input {
       box-shadow: 0 0 10px $red-light;
     }
   }
+}
+
+select {
+  @include hover;
 }
 
 ::-webkit-scrollbar {

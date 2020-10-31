@@ -4,7 +4,7 @@ import { DevPannelCtx } from '..'
 
 export const SettingBar = ({ setEvents }) => {
   const { dev } = useContext(DevPannelCtx)
-  const [leftPannelShow, setLeftPannelShow] = useState(false)
+  const [leftPannelShow, setLeftPannelShow] = useState(true)
 
   const onClearEventsClick = () => {
     setEvents([])

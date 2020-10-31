@@ -10,7 +10,9 @@
       "matches": [
         "http://*.missevan.com/*",
         "http://*.bilibili.com/*",
+        "http://*.bilibili.co/*",
         "https://*.missevan.com/*",
+        "http://*.bilibili.co/*",
         "https://*.bilibili.com/*"
       ],
       "run_at": "document_end"
@@ -28,10 +30,12 @@
   "permissions": [
     "http://*.missevan.com/*",
     "http://*.bilibili.com/*",
+    "http://*.bilibili.co/*",
     "https://*.missevan.com/*",
-    "https://*.bilibili.com/*",
+    "http://*.bilibili.com/*",
+    "https://*.bilibili.co/*",
     "clipboardWrite"
   ],
-  "version": "1.0.1",
+  "version": "1.1.0",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

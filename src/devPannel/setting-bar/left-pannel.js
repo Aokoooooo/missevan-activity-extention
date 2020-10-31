@@ -7,29 +7,28 @@ import { UPDATE_STORE, UPDATE_JTL_DOM } from '../utils/actions'
 import { MISSEVAN_JTL_UPDATE_TYPE } from '../utils/constants'
 import { toast } from '../toast'
 
+const PAGE_TYPE = {
+  EVENT: 'EVENT',
+  TOPIC: 'TOPIC',
+}
+
 export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
-  const { data, evalCode } = useContext(DevPannelCtx)
-  const [eventId, setEventId] = useState('')
+  const { data, evalCode, initCounter } = useContext(DevPannelCtx)
   const [isPC, setIsPC] = useState(false)
   const [isUAT, setIsUAT] = useState(false)
+  const [pageType, setPageType] = useState()
+  const [eventId, setEventId] = useState(0)
+  const [topicId, setTopicId] = useState(0)
+  const [enableComment, setEnableComment] = useState(false)
   const [needJtl, setNeedJtl] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const onSubmit = () => {
-    if (loading) {
-      return
-    }
-    setLoading(true)
-    // 更新基础信息
-    const baseInfo = { eventId, isPC, isUAT }
-    evalCode(UPDATE_STORE(JSON.stringify(baseInfo)))
-    toast('基础信息更新成功')
+  const fetchEvent = () => {
     if (!eventId) {
-      setLoading(false)
-      return
+      return Promise.resolve()
     }
     // 更新活动信息
-    getFetch({
+    return getFetch({
       url: `${MISSEVAN_URL.API_URL(isUAT)}/mobileWeb/getevent?id=${eventId}`,
     })
       .then((r) => {
@@ -55,9 +54,50 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
         toast(e.message)
         console.error(e)
       })
-      .finally(() => {
-        setLoading(false)
+  }
+  const fetchTopic = () => {
+    if (!topicId) {
+      return Promise.resolve()
+    }
+    // 更新活动信息
+    return getFetch({
+      url: `${MISSEVAN_URL.API_URL(isUAT)}/mtopic/gettopic?topicid=${topicId}`,
+    })
+      .then((r) => {
+        const shareOpts = {
+          title: r.info.title,
+          imageUrl: r.info.share_pic_url,
+          url: `${MISSEVAN_URL.API_URL(isUAT)}/mtopic/${topicId}`,
+        }
+        const topicData = JSON.stringify({
+          shareOpts,
+          info: r.info,
+        })
+        evalCode(UPDATE_STORE(`{ ...state, topicData: ${topicData} }`))
+          .then(() => {
+            toast('专题数据更新成功')
+          })
+          .catch((e) => {})
       })
+      .catch((e) => {
+        toast(e.message)
+        console.error(e)
+      })
+  }
+  const onSubmit = () => {
+    if (loading) {
+      return
+    }
+    setLoading(true)
+    // 更新基础信息
+    const baseInfo = { isPC, isUAT, pageType, eventId, topicId, enableComment }
+    evalCode(UPDATE_STORE(JSON.stringify(baseInfo)))
+    toast('基础信息更新成功')
+    if (!eventId && !topicId) {
+      setLoading(false)
+      return
+    }
+    Promise.all([fetchEvent(), fetchTopic()]).finally(() => setLoading(false))
   }
   const onUpdateUserInfo = () => {
     getFetch({
@@ -99,6 +139,12 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
     setIsUAT(data.isUAT)
   }, [data])
 
+  // 页面刷新时初始化 jtl 并打开面板
+  useEffect(() => {
+    setLeftPannelShow(true)
+    setNeedJtl(false)
+  }, [initCounter])
+
   return (
     <div className={classNames('left-pannel', { show: leftPannelShow })}>
       <div className="header">
@@ -109,18 +155,53 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
         </div>
       </div>
       <div className="content">
-        <div className="input-item">
-          <div className="label">活动 ID</div>
-          <input
-            value={eventId}
-            onChange={(e) => setEventId(e.target.value)}
-            onKeyPress={onEnter}
-          />
-        </div>
         <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
         <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
+        <div className="input-item">
+          <div className="label">页面类型</div>
+          <select
+            value={pageType}
+            onChange={(e) => setPageType(e.target.value)}
+          >
+            <option
+              selected="selected"
+              disabled="disabled"
+              style={{ display: 'none' }}
+              value=""
+            />
+            <option value={PAGE_TYPE.EVENT}>{PAGE_TYPE.EVENT}</option>
+            <option value={PAGE_TYPE.TOPIC}>{PAGE_TYPE.TOPIC}</option>
+          </select>
+        </div>
+        {pageType === PAGE_TYPE.EVENT && (
+          <div className="input-item">
+            <div className="label">活动 ID</div>
+            <input
+              value={eventId}
+              onChange={(e) => setEventId(Number(e.target.value))}
+              onKeyPress={onEnter}
+            />
+          </div>
+        )}
+        {pageType === PAGE_TYPE.TOPIC && (
+          <>
+            <div className="input-item">
+              <div className="label">专题 ID</div>
+              <input
+                value={topicId}
+                onChange={(e) => setTopicId(Number(e.target.value))}
+                onKeyPress={onEnter}
+              />
+            </div>
+            <Switch
+              label="启用评论"
+              onChange={setEnableComment}
+              value={enableComment}
+            />
+          </>
+        )}
         <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
-        <div className="divider" />
+        <div className="divider">下方按钮的行为取决于当前 UAT 状态</div>
         <div className="other-btns">
           <button onClick={onUpdateUserInfo}>同步用户信息</button>
           <button onClick={onJtlClick}>

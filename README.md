@@ -10,6 +10,4 @@ npm run start
 // build extension zip
 npm run build
 
-// lint all source files
-npm run lint
 ```

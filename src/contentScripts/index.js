@@ -73,6 +73,7 @@ function insertScripts(text) {
   const script = document.createElement('script')
   script.text = text
   document.body.appendChild(script)
+  document.body.removeChild(script)
 }
 
 const codeTemplate = `
@@ -80,8 +81,8 @@ const codeTemplate = `
   ${rewriteMissEvanEventsBusEmit}
   ${subscribeMissEvanEventsData}
   ${initMissEvan}
-  initMissEvan()
   ${updateJtlDom}
+  initMissEvan()
 `
 insertScripts(codeTemplate)
 

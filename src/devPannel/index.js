@@ -4,6 +4,7 @@ import React, {
   useRef,
   createContext,
   useCallback,
+  useReducer,
 } from 'react'
 import ReactDom from 'react-dom'
 import classNames from 'classnames'
@@ -29,6 +30,8 @@ const DevPannel = () => {
     window.innerWidth < SMALL_LAYOUT_WIDTH
   )
   const [isDataPannelVisible, setIsDataPannelVisible] = useState(true)
+  // 用来感知页面刷新
+  const [initCounter, updateInitCounter] = useReducer((s) => s + 1, 0)
   const appendEvents = useCallback(
     (newEvent) => {
       setEvents([...events, newEvent])
@@ -103,6 +106,7 @@ const DevPannel = () => {
         }
         case MESSAGE_DATA_TYPE.INIT: {
           setInitError(false)
+          updateInitCounter()
           return
         }
       }
@@ -127,6 +131,7 @@ const DevPannel = () => {
         data,
         events,
         evalCode,
+        initCounter,
       }}
     >
       <div className="dev-pannel">

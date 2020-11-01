@@ -16,3 +16,4 @@ export const MISSEVAN_JTL_UPDATE_TYPE = {
   ADD: 'ADD',
   DEL: 'DEL',
 }
+export const MISSEVAN_DEVTOOLS_CONTENT_NAME = 'MissEvanDevToolsContent'

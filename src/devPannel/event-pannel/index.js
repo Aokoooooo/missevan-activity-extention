@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import classNames from 'classnames'
 import { DevPannelCtx } from '..'
 import { EMIT_EVENT } from '../utils/actions'
 import { toast } from '../toast'
 
 export const EventPannel = ({ className }) => {
-  const { events, evalCode } = useContext(DevPannelCtx)
+  const { events, evalCode, initCounter } = useContext(DevPannelCtx)
   const [type, setType] = useState('')
   const [data, setData] = useState('')
   const [typeError, setTypeError] = useState(false)
@@ -47,6 +47,11 @@ export const EventPannel = ({ className }) => {
       onSubmit()
     }
   }
+
+  useEffect(() => {
+    setTypeError(false)
+    setDataError(false)
+  }, [initCounter])
 
   return (
     <div className={classNames('event-pannel', className)}>

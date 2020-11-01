@@ -3,7 +3,7 @@ const getPortId = (port) => {
   return port.name.split('-')[1] || ''
 }
 // 和 devtools 建立连接
-chrome.runtime.onConnect.addListener(function (port) {
+chrome.runtime.onConnect.addListener((port) => {
   // 连接名必须为 MissEvanDevTools-tabID
   if (!port.name.startsWith('MissEvanDevTools')) {
     return
@@ -15,7 +15,7 @@ chrome.runtime.onConnect.addListener(function (port) {
   // 缓存连接
   connections[tabId] = port
   // 连接关闭后移除监听和缓存
-  port.onDisconnect.addListener(function (port) {
+  port.onDisconnect.addListener((port) => {
     const tabId = getPortId(port)
     if (tabId in connections) {
       delete connections[tabId]

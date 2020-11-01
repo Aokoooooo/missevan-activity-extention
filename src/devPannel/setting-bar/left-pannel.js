@@ -48,7 +48,7 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
           .then(() => {
             toast('活动数据更新成功')
           })
-          .catch((e) => {})
+          .catch(() => {})
       })
       .catch((e) => {
         toast(e.message)
@@ -77,7 +77,7 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
           .then(() => {
             toast('专题数据更新成功')
           })
-          .catch((e) => {})
+          .catch(() => {})
       })
       .catch((e) => {
         toast(e.message)
@@ -131,6 +131,13 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
       )
     ).then(() => toast(needJtl ? '移除成功' : '添加成功'))
   }
+  const hideLeftPannel = (e) => {
+    e.stopPropagation()
+    setLeftPannelShow(false)
+  }
+  const stopPropagation = (e) => {
+    e.stopPropagation()
+  }
 
   useEffect(() => {
     // 自动同步 data 数据
@@ -146,67 +153,75 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
   }, [initCounter])
 
   return (
-    <div className={classNames('left-pannel', { show: leftPannelShow })}>
-      <div className="header">
-        <div />
-        <div className="title">初始化环境</div>
-        <div className="close-btn" onClick={() => setLeftPannelShow(false)}>
-          x
-        </div>
-      </div>
-      <div className="content">
-        <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
-        <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
-        <div className="input-item">
-          <div className="label">页面类型</div>
-          <select
-            value={pageType}
-            onChange={(e) => setPageType(e.target.value)}
-          >
-            <option
-              selected="selected"
-              disabled="disabled"
-              style={{ display: 'none' }}
-              value=""
-            />
-            <option value={PAGE_TYPE.EVENT}>{PAGE_TYPE.EVENT}</option>
-            <option value={PAGE_TYPE.TOPIC}>{PAGE_TYPE.TOPIC}</option>
-          </select>
-        </div>
-        {pageType === PAGE_TYPE.EVENT && (
-          <div className="input-item">
-            <div className="label">活动 ID</div>
-            <input
-              value={eventId}
-              onChange={(e) => setEventId(Number(e.target.value))}
-              onKeyPress={onEnter}
-            />
+    <div
+      className={classNames('left-pannel-modal', { show: leftPannelShow })}
+      onClick={hideLeftPannel}
+    >
+      <div
+        className={classNames('left-pannel', { show: leftPannelShow })}
+        onClick={stopPropagation}
+      >
+        <div className="header">
+          <div />
+          <div className="title">初始化环境</div>
+          <div className="close-btn" onClick={hideLeftPannel}>
+            x
           </div>
-        )}
-        {pageType === PAGE_TYPE.TOPIC && (
-          <>
+        </div>
+        <div className="content">
+          <Switch label="PC 环境" onChange={setIsPC} value={isPC} />
+          <Switch label="UAT 环境" onChange={setIsUAT} value={isUAT} />
+          <div className="input-item">
+            <div className="label">页面类型</div>
+            <select
+              value={pageType}
+              onChange={(e) => setPageType(e.target.value)}
+            >
+              <option
+                selected={true}
+                disabled={true}
+                style={{ display: 'none' }}
+                value=""
+              />
+              <option value={PAGE_TYPE.EVENT}>{PAGE_TYPE.EVENT}</option>
+              <option value={PAGE_TYPE.TOPIC}>{PAGE_TYPE.TOPIC}</option>
+            </select>
+          </div>
+          {pageType === PAGE_TYPE.EVENT && (
             <div className="input-item">
-              <div className="label">专题 ID</div>
+              <div className="label">活动 ID</div>
               <input
-                value={topicId}
-                onChange={(e) => setTopicId(Number(e.target.value))}
+                value={eventId}
+                onChange={(e) => setEventId(Number(e.target.value))}
                 onKeyPress={onEnter}
               />
             </div>
-            <Switch
-              label="启用评论"
-              onChange={setEnableComment}
-              value={enableComment}
-            />
-          </>
-        )}
-        <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
-        <div className="divider">下方按钮的行为取决于当前 UAT 状态</div>
-        <div className="other-btns">
-          <button onClick={onUpdateUserInfo}>同步用户信息</button>
-          <button onClick={onJtlClick}>
-            {needJtl ? '移除加特林' : '引入加特林'}
-          </button>
+          )}
+          {pageType === PAGE_TYPE.TOPIC && (
+            <>
+              <div className="input-item">
+                <div className="label">专题 ID</div>
+                <input
+                  value={topicId}
+                  onChange={(e) => setTopicId(Number(e.target.value))}
+                  onKeyPress={onEnter}
+                />
+              </div>
+              <Switch
+                label="启用评论"
+                onChange={setEnableComment}
+                value={enableComment}
+              />
+            </>
+          )}
+          <button onClick={onSubmit}>{loading ? '...' : '确认'}</button>
+          <div className="divider">下方按钮的行为取决于当前 UAT 状态</div>
+          <div className="other-btns">
+            <button onClick={onUpdateUserInfo}>同步用户信息</button>
+            <button onClick={onJtlClick}>
+              {needJtl ? '移除加特林' : '引入加特林'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

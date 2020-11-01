@@ -107,7 +107,6 @@ const DevPannel = () => {
         case MESSAGE_DATA_TYPE.INIT: {
           setInitError(false)
           updateInitCounter()
-          return
         }
       }
     })
@@ -123,6 +122,9 @@ const DevPannel = () => {
     window.addEventListener('resize', resizeThrottler)
     return () => window.removeEventListener('resize', resizeThrottler)
   }, [])
+  useEffect(() => {
+    setEvents([])
+  }, [initCounter])
 
   return (
     <DevPannelCtx.Provider

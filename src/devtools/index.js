@@ -12,7 +12,11 @@ chrome.devtools.inspectedWindow.eval(
       console.log(e)
       return
     }
-    if (r.endsWith('.missevan.com') || r.endsWith('.bilibili.com')) {
+    if (
+      r.endsWith('.missevan.com') ||
+      r.endsWith('.bilibili.com') ||
+      r.endsWith('.bilibili.co')
+    ) {
       createPanel('devPannel.html')
     }
   }

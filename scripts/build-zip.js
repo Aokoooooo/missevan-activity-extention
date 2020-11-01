@@ -2,8 +2,8 @@
 
 const fs = require('fs')
 const path = require('path')
-// eslint-disable-next-line
-var archiver = require('archiver')
+// eslint-disable-next-line import/no-extraneous-dependencies
+const archiver = require('archiver')
 
 const extPackageJson = require('../src/manifest.json')
 

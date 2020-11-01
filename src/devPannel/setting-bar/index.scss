@@ -13,105 +13,120 @@
     background: $green-lighter;
     color: $white;
   }
-  .left-pannel {
-    display: flex;
+  .left-pannel-modal {
     position: absolute;
-    flex-direction: column;
-    align-items: center;
     z-index: 5;
-    height: 100vh;
-    width: 360px;
     top: 0;
     left: 0;
-    transition: transform 0.5s;
-    transform: translateX(-400px);
-    background: $green-darker;
-    box-shadow: 1px 0 6px 2px $green-darkest;
-    font-size: $item-size-xxs;
+    width: 0;
+    height: 100vh;
     &.show {
-      transform: none;
+      width: 100vw;
     }
-    .header {
+    .left-pannel {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: $item-size;
-      margin-bottom: 20px;
-      background-color: $green-dark;
-      color: $green-lightest;
-      .title {
-        height: $item-size;
-        font-size: $item-size-xs;
-        line-height: $item-size;
-      }
-      .close-btn {
-        height: $item-size;
-        margin-right: 10px;
-        font-size: $item-size-sm;
-        transition: transform, opacity 0.5s;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-          transform: scale(1.2);
-        }
-      }
-    }
-    .content {
-      display: flex;
+      position: absolute;
       flex-direction: column;
       align-items: center;
-      width: 100%;
-      height: calc(100% - $item-size);
-      overflow: scroll;
-      .input-item {
+      z-index: 5;
+      height: 100vh;
+      width: 360px;
+      top: 0;
+      left: 0;
+      transition: transform 0.5s;
+      transform: translateX(-400px);
+      background: $green-darker;
+      box-shadow: 1px 0 6px 2px $green-darkest;
+      font-size: $item-size-xxs;
+      &.show {
+        transform: none;
+      }
+      .header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 80%;
-        margin-bottom: 20px;
+        width: 100%;
+        height: $item-size;
+        margin-bottom: 10px;
+        background-color: $green-dark;
         color: $green-lightest;
-        input {
-          height: $item-size-sm;
+        .title {
+          height: $item-size;
+          font-size: $item-size-xs;
+          line-height: $item-size;
         }
-        select {
-          width: 164px;
-          height: 24px;
-        }
-      }
-      .switch {
-        justify-content: flex-start;
-        width: 80%;
-        margin-bottom: 20px;
-        .label {
-          width: 41%;
-        }
-      }
-      button {
-        width: 120px;
-        height: $item-size-sm;
-        margin-top: 20px;
-        background-color: $green;
-      }
-      .divider {
-        width: 90%;
-        height: 1px;
-        margin: 20px 0;
-        color: $green-lighter;
-        text-align: center;
-        &::before {
-          content: '';
-          display: block;
-          border-top: 1px solid $green-lighter;
+        .close-btn {
+          height: $item-size;
+          margin-right: 10px;
+          font-size: $item-size-sm;
+          transition: transform, opacity 0.5s;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+            transform: scale(1.2);
+          }
         }
       }
-      .other-btns {
-        width: calc(80% + 20px);
+      .content {
         display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding-top: 10px;
+        overflow: scroll;
+        .input-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 80%;
+          margin-bottom: 20px;
+          color: $green-lightest;
+          .label {
+            width: 41%;
+          }
+          input {
+            flex: 1;
+            height: $item-size-sm;
+          }
+          select {
+            flex: 1;
+            height: 22px;
+          }
+        }
+        .switch {
+          justify-content: flex-start;
+          width: 80%;
+          margin-bottom: 20px;
+          .label {
+            width: 41%;
+          }
+        }
         button {
-          margin: 10px;
+          width: 120px;
+          height: $item-size-sm;
+          margin-top: 20px;
+          background-color: $green;
+        }
+        .divider {
+          width: 90%;
+          height: 1px;
+          margin: 20px 0;
+          color: $green-lighter;
+          text-align: center;
+          &::before {
+            content: '';
+            display: block;
+            border-top: 1px solid $green-lighter;
+          }
+        }
+        .other-btns {
+          width: calc(80% + 20px);
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          button {
+            margin: 10px;
+          }
         }
       }
     }

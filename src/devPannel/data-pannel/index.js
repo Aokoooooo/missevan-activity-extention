@@ -8,7 +8,7 @@ import { UPDATE_STORE } from '../utils/actions'
 import { toast } from '../toast'
 
 export const DataPannel = ({ className }) => {
-  const { data, evalCode } = useContext(DevPannelCtx)
+  const { data, evalCode, initCounter } = useContext(DevPannelCtx)
   const [isPreview, setIsPreview] = useState(true)
   const [isFullUpdate, setIsFullUpdate] = useState(false)
   const [updateData, setUpdateData] = useState('')
@@ -66,6 +66,7 @@ export const DataPannel = ({ className }) => {
           </PreviewItem>
         )
       }
+      return null
     })
   }
   const onSwitchClick = (state) => {
@@ -119,6 +120,11 @@ export const DataPannel = ({ className }) => {
       }
     }
   }, [])
+  useEffect(() => {
+    setError(false)
+    setIsFullUpdate(false)
+    setIsPreview(true)
+  }, [initCounter])
 
   return (
     <div className={classNames('data-pannel', className)}>

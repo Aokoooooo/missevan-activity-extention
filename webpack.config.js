@@ -6,7 +6,6 @@ const ExtensionReloader = require('webpack-extension-reloader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 // eslint-disable-next-line
 function configFunc(env, argv) {
@@ -24,15 +23,6 @@ function configFunc(env, argv) {
       path: path.resolve(__dirname, './dist'),
       publicPath: './',
       filename: '[name].js',
-    },
-    optimization: {
-      minimize: true,
-      minimizer: [
-        new TerserWebpackPlugin({
-          exclude: /contentScripts/,
-          sourceMap: true,
-        }),
-      ],
     },
     module: {
       rules: [

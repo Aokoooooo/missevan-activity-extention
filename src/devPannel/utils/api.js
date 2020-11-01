@@ -24,13 +24,6 @@ class ApiError extends Error {
 }
 
 function getResponse(response) {
-  // 某些老接口没有 code 字段，只能通过头来判断是否需要登录（弹窗，并不会真的重定向）
-  if (response.redirected && response.url.match(/\/member\/login/)) {
-    throw new ApiError({
-      code: ERROR_CODE.LOGIN_REQUIRED,
-      message: '请先登录',
-    })
-  }
   return response.json().then((r) => {
     // 业务报错
     if (!r.success && r.code !== 0) {

@@ -6,9 +6,9 @@ const ExtensionReloader = require('webpack-extension-reloader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 
-// eslint-disable-next-line
-function configFunc(env, argv) {
+function configFunc(env) {
   const isDevMode = env.NODE_ENV === 'development'
   const config = {
     devtool: isDevMode ? 'eval-source-map' : false,
@@ -63,6 +63,15 @@ function configFunc(env, argv) {
     },
     resolve: {
       alias: {},
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserWebpackPlugin({
+          exclude: /contentScripts/,
+          sourceMap: true,
+        }),
+      ],
     },
     plugins: [
       new MiniCssExtractPlugin({

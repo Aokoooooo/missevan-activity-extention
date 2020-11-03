@@ -141,9 +141,12 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
 
   useEffect(() => {
     // 自动同步 data 数据
-    setEventId(data.eventId || '')
     setIsPC(data.isPC)
     setIsUAT(data.isUAT)
+    setPageType(data.pageType || PAGE_TYPE.EVENT)
+    setEventId(data.eventId || 0)
+    setTopicId(data.topicId || 0)
+    setEnableComment(data.enableComment)
   }, [data])
 
   // 页面刷新时初始化 jtl 并打开面板
@@ -177,12 +180,6 @@ export const LeftPannel = ({ leftPannelShow, setLeftPannelShow }) => {
               value={pageType}
               onChange={(e) => setPageType(e.target.value)}
             >
-              <option
-                selected={true}
-                disabled={true}
-                style={{ display: 'none' }}
-                value=""
-              />
               <option value={PAGE_TYPE.EVENT}>{PAGE_TYPE.EVENT}</option>
               <option value={PAGE_TYPE.TOPIC}>{PAGE_TYPE.TOPIC}</option>
             </select>
